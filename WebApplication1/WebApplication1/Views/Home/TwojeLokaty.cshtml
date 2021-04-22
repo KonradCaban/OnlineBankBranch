@@ -1,0 +1,129 @@
+﻿@using WebApplication1.Models
+@{ List<lokatyinfo> list = (List<lokatyinfo>)Session["lokaty"];}
+
+<div class="parallax-container valign-wrapper">
+    <div class="section no-pad-bot">
+        <div class="container">
+            <div class="row center">
+                <h1 class="header center white-text text-lighten-2">Kredyt hipoteczny?</h1>
+                <h5 class="header col s12 light white-text"> <b> Z naszym bankiem złożenie wniosku zajmie Ci to 5 minut!</b></h5>
+            </div>
+        </div>
+    </div>
+    <div class="parallax"><img src="~/img/deposit/5.jpg" alt="Unsplashed background img 3"></div>
+</div>
+
+<div class="col s12">
+    <div class="container">
+        <div class="section">
+
+            <div class="section" id="user-index">
+                <div class="row">
+
+
+                    <div class="col s12">
+                        <div class="row">
+                            <div class="card user-card-negative-margin z-depth-0" id="feed">
+                                <div class="card-content card-border-gray">
+                                    <div class="row">
+                                        <div class="col s12">
+                                            <h5>Twoje lokaty</h5>
+
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col s12">
+                                            <ul class="tabs">
+                                                <li class="tab col s12"><a href="#lokaty">Twoje lokaty</a></li>
+                                            </ul>
+                                        </div>
+                                        <div id="lokaty" class="col s12">
+                                            <br>
+
+                                            <ul class="collapsible">
+                                                @foreach (var item in list)
+                                                {
+                                                                   string m = item.kwota.ToString();
+                                                                    m = m.Substring(0, m.Length - 2);
+                                                                    var date2 = @item.data.GetValueOrDefault().ToString("dd/MM/yyyy");
+                                                <li>
+                                                    @if (item.kwota > 0)
+                                                    {
+                                                    <div class="collapsible-header">Lokata AKTYWNA</div>
+                                                    }
+                                                    else
+                                                    {
+                                                <div class="collapsible-header">Lokata ZAKOŃCZONA</div>
+                                                    }
+                                                    
+
+                                                    <div class="collapsible-body">
+                                                        @if (item.kwota > 0)
+                                                        {
+                                                            <h6>Lokata AKTYWNA</h6>
+                                                        }
+                                                        else
+                                                        {
+                                                            <h6>Lokata ZAKOŃCZONA</h6>
+                                                        }
+                                                        <table class="highlight">
+                                                            <tr>
+                                                                <td><h6>Aktualna kwota na lokacie</h6></td>
+                                                                <td><h6>@m PLN</h6></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Data utworzenia lokaty</td>
+                                                                <td>@date2</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Oprocentowanie:</td>
+                                                                <td>@item.oprocentowanie %</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Typ oprocentowania:</td>
+                                                                <td>Stałe</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Kapitalizacja:</td>
+                                                                <td>miesięczna</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Okres lokaty:</td>
+                                                                <td>@item.okres miesiące</td>
+                                                            </tr>
+
+                                                        </table>
+
+                                                    </div>
+                                                </li>
+                                                    <hr color="#f6b2b5">
+                                                }
+                                            </ul>
+
+
+
+
+                                        </div>
+
+
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+
+
+    </div>
+</div>
+
+
+

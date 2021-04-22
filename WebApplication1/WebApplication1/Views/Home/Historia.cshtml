@@ -1,0 +1,202 @@
+﻿@using WebApplication1.Models
+@if (Session["Klient"] == null)
+{
+    Response.Redirect("Login");
+}
+@{List<subKonta> list = new List<subKonta>();};
+@{List<transakcje_rozszerzone> tr_list = new List<transakcje_rozszerzone>();}
+@if (Session["transakcje"] != null)
+{
+    tr_list = (List<transakcje_rozszerzone>)Session["transakcje"];
+    tr_list.Reverse();
+}
+@if (Session["konta"] != null)
+{
+    list = (List<subKonta>)Session["konta"];
+}
+
+<div class="parallax-container valign-wrapper">
+    <div class="section no-pad-bot">
+        <div class="container">
+            <div class="row center">
+                <h1 class="header center white-text text-lighten-2">Kredyt hipoteczny?</h1>
+                <h5 class="header col s12 light white-text"> <b> Z naszym bankiem złożenie wniosku zajmie Ci to 5 minut!</b></h5>
+            </div>
+        </div>
+    </div>
+    <div class="parallax"><img src="~/img/deposit/5.jpg" alt="Unsplashed background img 3"></div>
+</div>
+
+
+
+
+<div class="container">
+    <div class="section">
+        <div class="row">
+            @if (list.Count != 0)
+            {
+                int i = 0;
+            <div class="col s12 m12 l12">
+                <div id="Scrollable-tabs" class="card card card-default scrollspy">
+                   
+                        <div class="col s12">
+                            <ul class="tabs tab-demo z-depth-1">
+
+
+                                @foreach (var item in list)
+                                {
+                                    string c1 = item.numer_konta.Substring(0, 2);
+                                    string c2 = item.numer_konta.Substring(2);
+                                    c2 = System.Text.RegularExpressions.Regex.Replace(c2, ".{4}", "$0 ");
+                                    if (list.First() == item)
+                                    {
+                                        <li class="tab"><a class="active" href="#acc@(i)">@c1  @c2</a></li>
+                                       
+                                    }
+                                    else
+                                    {
+                                        <li class="tab"><a href="#acc@(i)">@c1  @c2</a></li>
+                                      
+                                    }
+                                    i++;
+                                }
+                                @{i = 0;}
+                                <!-- jak dodajesz nowe kolumny to ich parametr musi dawać 12 w sensie dla 2 kolumn s6+s6=s12-->
+
+                            </ul>
+                            
+                            </div>
+                        </div>
+                   
+                </div>
+                <br /><br /><br />
+                <h4>Tutaj znajdują twoje wszystkie transakcje. </h4>
+                <br /><br /><br /><br /><br />
+                foreach (var item in list)
+                {
+                DateTime? tmp = DateTime.Now;
+                decimal? prev_money = 0;
+
+                <div id="acc@(i)" class="col s12">
+                    @if (tr_list.Count > 0)
+                    {
+                        foreach (var item2 in tr_list)
+                        {
+                            if (item2.numer_konta_nadawca == item.numer_konta || item2.numer_konta_odbiorca == item.numer_konta)
+                            {
+                                prev_money = item.stan_konta;
+                                foreach (var transaction in tr_list)
+                                {
+                                    if (item2.id_transakcji < transaction.id_transakcji)
+                                    {
+                                        if (transaction.numer_konta_nadawca == item.numer_konta)
+                                        {
+                                            prev_money += transaction.kwota;
+                                        }
+                                        if (transaction.numer_konta_odbiorca == item.numer_konta)
+                                        {
+                                            prev_money -= transaction.kwota;
+                                        }
+                                    }
+                                }
+
+                                string c1 = @item2.numer_konta_nadawca.Substring(0, 2);
+                                string c2 = @item2.numer_konta_nadawca.Substring(2);
+                                c2 = System.Text.RegularExpressions.Regex.Replace(c2, ".{4}", "$0 ");
+
+                                string o1 = @item2.numer_konta_odbiorca.Substring(0, 2);
+                                string o2 = @item2.numer_konta_odbiorca.Substring(2);
+                                o2 = System.Text.RegularExpressions.Regex.Replace(o2, ".{4}", "$0 ");
+
+                                string kw = item2.kwota.ToString().Substring(0, item2.kwota.ToString().Length - 2);
+                                var date2 = @item2.data.GetValueOrDefault().ToString("dd/MM/yyyy");
+                                string kw_af = prev_money.ToString().Substring(0, prev_money.ToString().Length - 2);
+
+                                <ul class="collapsible">
+
+                                    @if (item2.data != tmp)
+                                    {
+                                        <li>
+                                            <div class="collapsible-header grey lighten-2">@date2</div>
+                                        </li>
+                                    }
+                                    @{tmp = @item2.data;}
+
+                                    <li>
+                                        <div class="collapsible-header"> @item2.tytul </div>
+                                        <div class="collapsible-body">
+                                            <h4>@item2.tytul</h4>
+                                            <p>
+                                                <table class="highlight">
+                                                    <tr>
+                                                        <td>Rachunek odbiorcy:</td>
+                                                        <td>@o1  @o2</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Nadawca:</td>
+                                                        <td>@item2.dane_nadawcy</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Odbiorca:</td>
+                                                        <td>@item2.dane_odbiorcy</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Rachunek nadawcy:</td>
+                                                        <td>@c1  @c2</td>
+                                                    </tr>
+
+                                                    <tr>
+                                                        <td>Kwota:</td>
+                                                        <td>@kw PLN</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Tytuł:</td>
+                                                        <td>@item2.tytul </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Data operacji:</td>
+                                                        <td>@date2</td>
+                                                    </tr>
+
+                                                    <tr>
+                                                        <td>Numer transakcji:</td>
+                                                        <td>@item2.id_transakcji</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Saldo po operacji:</td>
+                                                        <td>@kw_af PLN</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Rodzaj:</td>
+                                                        <td>@item2.nazwa_kategorii</td>
+                                                    </tr>
+
+                                                </table>
+
+                                        </div>
+                                    </li>
+                                </ul>
+
+                            }
+                        }
+                    }
+                    else
+                    {
+                <center><h6>Brak transakcji powiązanych z twoim rachunkiem</h6> </center>
+                    }
+
+
+
+                </div>
+                i++;
+                }
+
+
+                }
+                else
+                { <text> Nie masz otwartego żadnego rachunku.</text>}
+            </div>
+
+    </div>
+</div>
+

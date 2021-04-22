@@ -1,0 +1,205 @@
+﻿@model WebApplication1.Models.Kod
+@using WebApplication1.Models
+@{
+    ViewBag.Title = "KalkulatorLokat";
+    if (Session["konta"] == null)
+    {
+        Response.Redirect("Login");
+    }
+        List<subKonta> r_list = (List<subKonta>)Session["konta"];
+}
+
+
+    <div class="container">
+
+        <h5 class="method-header">Lokata</h5>
+
+        <div class="row">
+            <div class="col s12">
+
+                <div class="row">
+                    <div class="col s12 m7">
+                        <div class="card-panel">
+                            <div class="row">
+
+                                <div class="col s12 m12">
+
+
+
+                                    <b>Kwota lokaty</b>
+                                    <input id="kwota" type="text" class="validate" value="0" disabled>
+                                    <label for="kwota">Kwota wpłacona na lokatę</label>
+
+
+                                    <p class="range-field">
+                                        <input type="range" id="test_kw" min="@((int)TempData["min_kwota"])" max="@((int)TempData["maks_kwota"])" step="1000" onchange="aktualizujkwote(this.value);" />
+                                    </p>
+
+                                    <script>
+                                        function aktualizujkwote(val) {
+                                                  document.getElementById('kwota').value = parseInt(document.getElementById('test_kw').value);
+                                            document.getElementById('ilosc').value = parseInt(document.getElementById('test_m').value);
+                                            document.getElementById('ilosc_m').value = parseInt(document.getElementById('test_m').value);
+                                                        document.getElementById('kwota_z').value = parseInt(document.getElementById('test_kw').value);
+            var ilosc_m = parseInt(document.getElementById('ilosc').value);
+            var i;
+            var procent = parseFloat(document.getElementById('oprocentowanie').value);
+            var sum = parseFloat(document.getElementById('kwota').value);
+            var odsetki = 0
+            for (i = 1; i <= ilosc_m; i++) {
+                odsetki = sum * (procent / 1200) * 0.81;
+                sum += odsetki;
+            }
+            document.getElementById('output').value =Math.round( sum*100)/100;
+
+
+                                        }</script>
+
+                                    <br>
+
+                                    <b>Liczba miesięcy:</b>
+                                    <input id="ilosc" type="text" class="validate" value="0" disabled>
+                                    <label for="ilosc">Liczba miesięcy</label>
+                                    <p class="range-field">
+                                        <input type="range" id="test_m" min="@((int)TempData["min_m"])" max="@((int)TempData["maks_m"])" onchange="aktualizujM(this.value);" />
+                                    </p>
+
+                                    <script>
+                                        function aktualizujM(val) {
+            document.getElementById('kwota').value = parseInt(document.getElementById('test_kw').value);
+                                            document.getElementById('ilosc').value = parseInt(document.getElementById('test_m').value);
+                                            document.getElementById('ilosc_m').value = parseInt(document.getElementById('test_m').value);
+                                                        document.getElementById('kwota_z').value = parseInt(document.getElementById('test_kw').value);
+            var ilosc_m = parseInt(document.getElementById('ilosc').value);
+            var i;
+            var procent = parseFloat(document.getElementById('oprocentowanie').value);
+            var sum = parseFloat(document.getElementById('kwota').value);
+            var odsetki = 0
+            for (i = 1; i <= ilosc_m; i++) {
+                odsetki = sum * (procent / 1200) * 0.81;
+                sum += odsetki;
+            }
+            document.getElementById('output').value = Math.round( sum*100)/100;
+
+
+                                        }</script>
+
+
+
+                                    <b> Wysokość lokaty na końcu z odliczonym podatkiem </b> <h4> <output id="output" style="color:red;">0</output>	zł</h4>
+
+
+
+                                    <br>
+                                    <br>
+                                    <br>
+
+                                </div>
+
+
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col s12 m5">
+
+                        <div class="card-panel">
+
+
+                            <table>
+                                <tr>
+                                    <th>Oprocentowanie w (w %)</th>
+                                    <td><input type="text" id="oprocentowanie" value="@((double)TempData["oprocentowanie"])" disabled required /></td>
+                                </tr>
+  
+
+                            </table>
+                            <div id="modal1" class="modal">
+                                <div class="modal-content">
+                                    <h4>Autoryzacja</h4>
+                                    <div class="row">
+
+                                        @using (Html.BeginForm("NowaLokata", "Create", FormMethod.Post))
+                                        {
+                                            <input type="hidden" id="ilosc_m" name="ilosc_m" required>
+                                            <input type="hidden" id="kwota_z" name="kwota_z" required>
+                                            <input type="hidden" id="procent" name="procent" required>
+                                            <div class="input-field col s6">
+                                                Podaj hasło: <input type="password" class="validate" name="password" maxlength="50" minlength="6" required />
+                                            </div>
+
+
+                                            <div class="input-field col s6">
+                                                Podaj kod autoryzacyjny numer @Html.DisplayFor(p => p.numer_kodu):<input type="text" class="validate" name="kod" maxlength="6" minlength="6" required />
+                                                @Html.Hidden("check_code", @Html.DisplayFor(p => p.kod))
+                                            </div>
+                                            <div class="input-field col s12">
+                                                <br />
+                                                <center>
+                                                    <input type="submit" value="Utwórz lokatę" class="btn" />
+                                                </center>
+                                            </div>
+                                            <label for="konto_cel">Wybierz konto z którego mamy pobrać kwotę na lokatę: </label>
+                                            <select name="konto_cel" id="konto_cel">
+
+                                                @foreach (var item in r_list)
+                                                {
+                                                    string c1 = @item.numer_konta.Substring(0, 2);
+                                                    string c2 = @item.numer_konta.Substring(2);
+                                                    c2 = System.Text.RegularExpressions.Regex.Replace(c2, ".{4}", "$0 ");
+                                                    string m = item.stan_konta.ToString();
+                                                    m = m.Substring(0, m.Length - 2);
+                                                    <option value="@item.numer_konta"> Konto @c1 @c2 (@m zł)</option>
+                                                }
+                                            </select>
+
+
+                                        }
+
+                                        <div class="modal-footer">
+                                            <a href="#!" class="modal-close waves-effect waves-green btn-flat">Anuluj operację</a>
+                                        </div>
+
+
+                                    </div>
+
+
+
+                                </div>
+                            </div>
+
+
+                        </div>
+
+
+                    </div>
+                </div>
+
+
+            </div>
+            <div id="row">
+                <center> <a class="waves-effect waves-light btn modal-trigger" href="#modal1">Autoryzuj</a> </center>
+            </div>
+
+        </div>
+
+        <script>
+            document.getElementById('kwota').value = parseInt(document.getElementById('test_kw').value);
+            document.getElementById('ilosc').value = parseInt(document.getElementById('test_m').value);
+            document.getElementById('ilosc_m').value = parseInt(document.getElementById('test_m').value);
+            document.getElementById('kwota_z').value = parseInt(document.getElementById('test_kw').value);
+            document.getElementById('procent').value = parseFloat(document.getElementById('oprocentowanie').value);
+            var ilosc_m = parseInt(document.getElementById('ilosc').value);
+            var i;
+            var procent = parseFloat(document.getElementById('oprocentowanie').value);
+            var sum = parseFloat(document.getElementById('kwota').value);
+            var odsetki = 0
+            for (i = 1; i <= 1; i++) {
+                odsetki = sum * (procent / 1200) * 0.81;
+                sum += odsetki;
+            }
+            document.getElementById('output').value =Math.round( sum*100)/100;
+
+        </script>
+
+    </div>

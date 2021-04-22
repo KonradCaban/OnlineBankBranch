@@ -1,0 +1,45 @@
+﻿@model WebApplication1.Models.Klient
+@{
+    ViewBag.Title = "Reset";
+}
+
+<center>
+    <div class="z-depth-3 y-depth-3 x-depth-3 grey  lighten-4 row" style="display: inline-block; padding: 32px 48px 0px 48px; border: 1px; margin-top: 100px; solid #EEE;">
+
+
+
+
+
+
+
+        <div class="card-content">
+            @using (Html.BeginForm("Reset", "Register", FormMethod.Post))
+            {
+                <h4 class="card-title">Odzyskiwanie hasła</h4>
+                <div class="row">
+                    <p>
+                        Na podany przez Ciebie adres e-mail zostanie wysłany link umożliwiający zresetowanie Ci hasła w naszym systemie bankowym.
+                        Pamiętaj żaden pracownik naszego banku nie może zarządać resetowania hasła do serwisu.
+                    </p>
+                </div>
+                <div class="row">
+                    <div class="input-field col s12">
+                        @Html.LabelFor(model => model.email, htmlAttributes: new { @class = "control-label" })
+
+                        @Html.EditorFor(model => model.email, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.email, "", new { @class = "text-danger", @id = "icon_prefix1" })
+
+                    </div>
+                </div>
+
+                <div class="input-field col s12">
+                    <input type="submit" value="Wyślij e-mail" class="btn" />
+                </div>
+
+            }
+
+        </div>
+    </div>
+    <br><br><br><br><br><br><br><br><br><br><br>
+</center>
+

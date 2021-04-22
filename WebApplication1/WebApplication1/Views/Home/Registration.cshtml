@@ -1,0 +1,125 @@
+﻿@model WebApplication1.Models.Klient
+
+<!-- Start Page Loading -->
+<div id="loader-wrapper">
+    <div id="loader"></div>
+    <div class="loader-section section-left"></div>
+    <div class="loader-section section-right"></div>
+</div>
+<!-- End Page Loading -->
+<!-- //////////////////////////////////////////////////////////////////////////// -->
+<!-- START HEADER -->
+
+<!-- END HEADER -->
+<!-- //////////////////////////////////////////////////////////////////////////// -->
+<!-- START MAIN -->
+<div class="container">
+    <center>
+        <div class="z-depth-3 y-depth-3 x-depth-3 grey  lighten-4 row" style="display: inline-block; padding: 32px 48px 0px 48px; border: 1px; margin-top: 100px; solid #EEE;width:75%">
+
+            <div class="card-title">
+                <div class="row">
+                    <h4 class="card-title">Rejestracja</h4>
+                </div>
+            </div>
+
+            <div class="row">
+                @using (Html.BeginForm("RegisterAsync", "Register", FormMethod.Post))
+                {
+                    @Html.AntiForgeryToken()
+
+
+
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.haslo, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="input-field col s12">
+                            @Html.EditorFor(model => model.haslo, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.haslo, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.imie, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="input-field col s12">
+                            @Html.EditorFor(model => model.imie, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.imie, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.nazwisko, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="input-field col s12">
+                            @Html.EditorFor(model => model.nazwisko, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.nazwisko, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.pesel, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="input-field col s12">
+                            @Html.EditorFor(model => model.pesel, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.pesel, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.numer_dowodu, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="input-field col s12">
+                            @Html.EditorFor(model => model.numer_dowodu, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.numer_dowodu, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.telefon, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="input-field col s12">
+                            @Html.EditorFor(model => model.telefon, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.telefon, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.email, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="input-field col s12">
+                            @Html.EditorFor(model => model.email, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.email, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.data_ur, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.data_ur, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.data_ur, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <p>
+                        @Html.LabelFor(model => model.plec, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <label>
+                            @Html.RadioButtonFor(model => model.plec, "1", new { @checked = true })
+
+                            <span>Mężczyzna</span>
+                        </label>
+                        <label>
+                            @Html.RadioButtonFor(model => model.plec, "2", new { @checked = true })
+
+                            <span>Kobieta</span>
+                        </label>
+                    </p>
+
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <input type="submit" value="Zarejestruj się" class="btn btn-default" />
+                        </div>
+                    </div>
+
+                }
+            </div>
+        </div>
+    </center>
+</div>
+<div>
+    <center>@Html.ActionLink("Wróć do logowania", "")</center>
+</div>

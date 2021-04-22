@@ -1,0 +1,195 @@
+﻿@model WebApplication1.Models.Kod
+@using WebApplication1.Models
+@{
+    ViewBag.Title = "NowyRachunek";
+}
+@if (Session["Klient"] == null)
+{
+    Response.Redirect("Login");
+}
+@{ Acc_Info info = (Acc_Info)ViewData["info"]; }
+
+<div class="parallax-container valign-wrapper">
+    <div class="section no-pad-bot">
+        <div class="container">
+            <div class="row center">
+                <h1 class="header center white-text text-lighten-2">Kredyt hipoteczny?</h1>
+                <h5 class="header col s12 light white-text"> <b> Z naszym bankiem złożenie wniosku zajmie Ci to 5 minut!</b></h5>
+            </div>
+        </div>
+    </div>
+    <div class="parallax"><img src="~/img/deposit/5.jpg" alt="Unsplashed background img 3"></div>
+</div>
+
+
+
+
+<div class="col s12">
+    <div class="container">
+        <div class="section">
+
+            <div class="section" id="user-index">
+                <div class="row">
+
+
+                    <div class="col s12 ">
+                        <div class="row">
+                            <div class="card user-card-negative-margin z-depth-0" id="feed">
+                                <div class="card-content card-border-gray">
+
+
+
+                                    <div class="row">
+
+                                        <div id="lokaty" class="col s12">
+                                            <br>
+
+
+                                            <div class="card">
+                                                <div class="card-image">
+                                                    <img src="~/img/lokaty/1.jpg">
+                                                    <span class="card-title grey darken-4">Konto @(info.nazwa_typu)</span>
+                                                </div>
+                                                <div class="card-content">
+                                                    <p>Otwórz swoje nowe konto @(info.nazwa_typu) </p>
+                                                    <h5> Z nami zajmie Ci to mniej niż 5 minut! </h5>
+                                                    <br>
+                                                    <div class="row">
+                                                        @{
+                                                            string tmp = @info.prowizja.ToString();
+                                                            string prowizja = tmp.Substring(0, tmp.Length - 2);
+                                                            tmp = @info.oplata_m.ToString();
+                                                            string koszt = tmp.Substring(0, tmp.Length - 2);
+                                                        }
+
+                                                        <div class="col s12 m4 l4"><p>Oprocentowanie</p> <h5> <a class="tooltipped" data-position="top" data-tooltip="Oprocentowanie stałe 1% w skali roku.">1% </a></h5></div>
+                                                        <div class="col s12 m4 l4"><p>Koszt pojedynczej operacji</p> <h5>@(prowizja) zł</h5></div>
+                                                        <div class="col s12 m4 l4"><p>Koszt utrzymania</p> <h5>@(koszt) zł miesięcznie</h5></div>
+                                                    </div>
+
+
+
+                                                    <div class="card-tabs">
+                                                        <ul class="tabs tabs-fixed-width">
+
+
+                                                            <li class="tab"><a class="active" href="#test4">Szczegóły dotyczące rachunku</a></li>
+                                                            <li class="tab"><a href="#test5">Załóż rachunek</a></li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                                <div class="card-content grey lighten-4">
+                                                    <div id="test4">
+
+
+                                                        <p>Rachunek @(info.nazwa_typu) gwarantuje Ci:</p>
+
+                                                        <p>
+                                                            <label>
+                                                                <input type="checkbox" checked="checked" disabled="disabled" />
+                                                                <span>Możliwość założenia rachunku bez wychodzenia z domu</span>
+                                                            </label>
+                                                        </p>
+
+                                                        <p>
+                                                            <label>
+                                                                <input type="checkbox" checked="checked" disabled="disabled" />
+                                                                <span>Stały koszt miesięczny utrzymania wynoszący tylko @(koszt) złotych</span>
+                                                            </label>
+                                                        </p>
+
+                                                        <p>
+                                                            <label>
+                                                                <input type="checkbox" checked="checked" disabled="disabled" />
+                                                                <span>Atrakcyjne zniżki</span>
+                                                            </label>
+                                                        </p>
+
+                                                        <p>
+                                                            <label>
+                                                                <input type="checkbox" checked="checked" disabled="disabled" />
+                                                                <span>Dodatkowe pakiety socjalne</span>
+                                                            </label>
+                                                        </p>
+
+                                                    </div>
+                                                    <div id="test5">
+                                                        <p>Założenie nowego rachunku bankowego wymaga autoryzacji użytkownika. Jeśli chcesz załozyć nowy rachunek <a class="modal-trigger" href="#modal1"> autoryzuj </a> akcje w serwisie!</p>
+                                                        <br>
+                                                        <center> <a class="waves-effect waves-light btn modal-trigger" href="#modal1">Autoryzuj</a> </center>
+
+                                                        <div id="modal1" class="modal">
+                                                            <div class="modal-content">
+                                                                <h4>Autoryzacja</h4>
+                                                                <div class="row">
+                                                                    
+
+                                                                        @using (Html.BeginForm("CreateNewAcc", "Create", FormMethod.Post))
+                                                                        {
+                                                                            
+                                                                                <div class="input-field col s6">
+                                                                                    Podaj hasło: <input type="password" class="validate" name="password" maxlength="50" minlength="6" required />
+                                                                                </div>
+                                                                                
+                                                                                <div class="input-field col s6">
+                                                                                    Podaj kod autoryzacyjny numer @Html.DisplayFor(p => p.numer_kodu):<input type="text" class="validate" name="kod" maxlength="6" minlength="6" required />
+                                                                                    @Html.Hidden("check_code", @Html.DisplayFor(p => p.kod))
+                                                                                </div>
+                                                                                <input type="hidden" name="id_typu" value=" @info.id_typu" />
+                                                                                <div class="input-field col s12">
+                                                                                    <br />
+                                                                                    <center>
+                                                                                        <input type="submit" value="Utwórz rachunek" class="btn" />
+                                                                                    </center>
+                                                                                </div>
+                                                                            
+                                                                        }
+
+                                                                        <div class="modal-footer">
+                                                                            <a href="#!" class="modal-close waves-effect waves-green btn-flat">Anuluj operację</a>
+                                                                        </div>
+                                                                    
+
+                                                                </div>
+
+
+
+                                                            </div>
+                                                        </div>
+                                                        <br>
+                                                    </div>
+
+
+
+                                                    
+
+
+
+                                                    <br>
+
+
+
+
+                                                </div>
+                                            </div>
+                                            <hr color="#f6b2b5">
+
+                                        </div>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+
+</div>
+
+
+

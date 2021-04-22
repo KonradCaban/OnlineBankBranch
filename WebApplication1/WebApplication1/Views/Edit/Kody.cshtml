@@ -1,0 +1,49 @@
+﻿@model WebApplication1.Models.Klient
+@{
+    ViewBag.Title = "Kody";
+}
+@if (Session["Klient"] == null)
+{
+    Response.Redirect("Login");
+}
+
+
+<div class="parallax-container valign-wrapper">
+    <div class="section no-pad-bot">
+        <div class="container">
+            <div class="row center">
+                <h1 class="header center white-text text-lighten-2">Kredyt hipoteczny?</h1>
+                <h5 class="header col s12 light white-text"> <b> Z naszym bankiem złożenie wniosku zajmie Ci to 5 minut!</b></h5>
+            </div>
+        </div>
+    </div>
+    <div class="parallax"><img src="~/img/deposit/5.jpg" alt="Unsplashed background img 3"></div>
+</div>
+
+<div class="container">
+    <div class="section">
+        <br />
+        <center><h5>Tutaj możesz wygenerować nowe kody autoryzujące - zostaną wysłane na adres e-mail.</h5></center>
+        <div class="row">
+            @using (Html.BeginForm("Kody", "Edit", FormMethod.Post, new  { @class="col s12"}))
+            {
+                <div class="row">
+                    <div class="input-field col s12">
+                        @Html.LabelFor(x => x.haslo, "Wpisz swoje hasło", htmlAttributes: new { @class = "control-label col-md-2" })
+                        @Html.EditorFor(x => x.haslo, new { htmlAttributes = new { @class = "form-control", name = "newpassword" } })
+                        @Html.ValidationMessageFor(x => x.haslo, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                @Html.HiddenFor(x => x.id_klienta);
+                <button class="btn waves-effect waves-light right" type="submit" name="action">
+                    Wygeneruj
+                    <i class="material-icons right">send</i>
+                </button>
+            }
+        </div>
+        </div>
+    </div>
+
+
+
+

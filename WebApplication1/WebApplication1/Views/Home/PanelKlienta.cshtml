@@ -1,0 +1,497 @@
+﻿@using WebApplication1.Models
+
+@{
+    ViewBag.Title = "PanelKlienta";
+}
+  @if (Session["Klient"] == null)
+    {
+        Response.Redirect("Login");
+    }
+@using (Html.BeginForm("Wyloguj", "Home", FormMethod.Post))
+{
+    List<lokatyinfo> l_lokat = (List<lokatyinfo>)Session["lokaty"];
+    List<subKonta> list = (List<subKonta>)Session["konta"];
+    List<transakcje_rozszerzone> tr_list = (List<transakcje_rozszerzone>)Session["transakcje"];
+    List<infoKredyt> kr_l = (List<infoKredyt>)Session["kredyty"];
+    
+    <div class="parallax-container valign-wrapper">
+        <div class="section no-pad-bot">
+            <div class="container">
+                <div class="row center">
+                    <h1 class="header center white-text text-lighten-2">Kredyt hipoteczny?</h1>
+                    <h5 class="header col s12 light white-text"> <b> Z naszym bankiem złożenie wniosku zajmie Ci to 5 minut!</b></h5>
+                </div>
+            </div>
+        </div>
+        <div class="parallax"><img src="~/img/deposit/5.jpg" alt="Unsplashed background img 3"></div>
+    </div>
+
+    <div class="col s12">
+        <div class="container">
+            <div class="section">
+
+                <div class="section" id="user-index">
+                    <div class="row">
+                        <div class="col s12 m4 l3 user-section-negative-margin">
+
+                            @if (list.Count != 0)
+                            {
+                                
+                                foreach (var item in list)
+                                {
+                                    string c1 = @item.numer_konta.Substring(0, 2);
+                                    string c2 = @item.numer_konta.Substring(2);
+                                    c2 = System.Text.RegularExpressions.Regex.Replace(c2, ".{4}", "$0 ");
+                                    string m = item.stan_konta.ToString();
+                                    m = m.Substring(0, m.Length - 2);
+                                    <div class="row">
+                                        <div class="col s12">
+                                            <h6>@item.nazwa_typu </h6>
+                                            <p class="m-0">@c1 @c2 </p>
+                                            <h6>Dostępne środki:</h6>
+                                            <h5 class="m-0" style="color: #039be5;">@m zł</h5>
+                                        </div>
+                                    </div>
+
+                                    <hr>
+                                }
+                            }
+                            else
+                            {
+                                <text> Nie masz założonego jeszcze żadnego rachunku.<br />Kliknij @Html.ActionLink("tutaj", "Oferta", "Create", null, new { @style = "color:blue;" }) aby założyć swój pierwszy rachunek.</text>
+                            }
+
+
+
+
+
+
+
+
+
+                        </div>
+
+                        <div class="col s12 m8 l6">
+                            <div class="row">
+                                <div class="card user-card-negative-margin z-depth-0" id="feed">
+                                    <div class="card-content card-border-gray">
+                                        <div class="row">
+                                            <div class="col s12">
+                                                <h5>
+                                                    <text>
+                                                        Witaj @((Session["Klient"] as Klient).imie) @((Session["Klient"] as Klient).nazwisko)
+                                                    </text>
+                                                </h5>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col s12">
+                                                <ul class="tabs">
+                                                    <li class="tab col s4"><a href="#kredyt">Kredyty</a></li>
+                                                    <li class="tab col s4"><a class="active" href="#rachunki">Rachunki</a></li>
+                                                    <li class="tab col s4"><a href="#lokaty">Lokaty</a></li>
+                                                </ul>
+                                            </div>
+                                            <div id="kredyt" class="col s12">
+                                                <br>
+                                                <h6>Podstawowe informacje o Twoich aktywnych kredytach</h6>
+                                                @if (kr_l.Count != 0)
+                                                {
+
+
+                                                    foreach (var item in kr_l)
+                                                    {
+                                                        string ld = item.kwota.ToString();
+                                                        ld = ld.Substring(0, ld.Length - 2);
+                                                        string kwota_raty = item.kwota_najbliszej_raty.ToString();
+                                                        kwota_raty = kwota_raty.Substring(0, ld.Length - 2);
+                                                        var data_splaty = @item.termin_splaty.GetValueOrDefault().ToString("dd/MM/yyyy");
+                                                        <table class="highlight">
+                                                            <tr>
+                                                                <td>Kwota: </td>
+                                                                <td>@ld zł</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Oprocentowanie:</td>
+                                                                <td>@item.oprocentowanie %</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Okres:</td>
+
+                                                                @if (item.okres == 1)
+                                                                {
+                                                                    <td>@item.okres miesiąc</td>
+
+                                                                }
+                                                                @if (item.okres < 5 && item.okres > 1)
+                                                                {
+                                                                    <td>@item.okres miesiące</td>
+
+                                                                }
+                                                                @if (item.okres > 5)
+                                                                {
+                                                                    <td>@item.okres miesięcy</td>
+
+                                                                }
+
+
+                                                            </tr>
+
+                                                            <tr>
+                                                                <td>Pozostało:</td>
+
+                                                                @if (item.raty_pozostale == 1)
+                                                                {
+                                                                    <td>@item.raty_pozostale rata</td>
+
+                                                                }
+                                                                @if (item.raty_pozostale < 5 && item.raty_pozostale > 1)
+                                                                {
+                                                                    <td>@item.raty_pozostale raty</td>
+
+                                                                }
+                                                                @if (item.raty_pozostale > 5)
+                                                                {
+                                                                    <td>@item.raty_pozostale rat</td>
+
+                                                                }
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Wysokość następnej raty (wysokość może zostać zwiększona jeśli nastąpi opóźnienie spłaty:</td>
+                                                                <td>@kwota_raty zł</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Termin spłaty następnej raty:</td>
+                                                                <td>@data_splaty</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Wysokość prowizji:</td>
+                                                                <td>@item.prowizja  %</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Wysokość RRSO:</td>
+                                                                <td>@item.rrso %</td>
+                                                            </tr>
+                                                            <tr><td colspan="2">
+                                                                    <center>@Html.ActionLink("W celu spłaty raty kliknij tutaj", "PanelKredytow", "Home", null, new { @style = "color:blue;" })</center>
+                                                                        </td>
+                                                            </tr>
+                                                        </table>
+                                                        <br /><br />
+                                                        <hr />
+                                                    }
+
+                                                }
+
+
+
+                                            </div><br /><br />
+                                           
+                                                        <div id="rachunki" class="col s12">
+                                                            <h6>Podstawowe informacje o rachunkach</h6>
+                                                            <br /> <br />
+                                                            @if (list.Count != 0)
+                                                            {
+
+
+                                                                foreach (var item in list)
+                                                                {
+
+
+                                                                    string c1 = @item.numer_konta.Substring(0, 2);
+                                                                    string c2 = @item.numer_konta.Substring(2);
+                                                                    c2 = System.Text.RegularExpressions.Regex.Replace(c2, ".{4}", "$0 ");
+                                                                    string m = item.stan_konta.ToString();
+                                                                    m = m.Substring(0, m.Length - 2);
+
+                                                                    <table class="highlight">
+
+                                                                        <tr>
+                                                                            <td>
+                                                                                Nazwa:
+                                                                            </td>
+                                                                            <td>@item.nazwa_typu</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td>Numer konta :</td>
+                                                                            <td>@c1  @c2</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td>Saldo:</td>
+                                                                            <td>@m zł</td>
+                                                                        </tr>
+                                                                    </table>
+
+                                                                    <br>
+                                                                    <br />
+                                                                    string ld = item.limit_d.ToString();
+                                                                    ld = ld.Substring(0, ld.Length - 2);
+
+                                                                    string md = item.limit_m.ToString();
+                                                                    md = md.Substring(0, md.Length - 2);
+                                                                    <h6>Twoje limity</h6>
+                                                                    <br />
+                                                                    <p>Limit dla pojedynczej transakcji </p>
+                                                                    <table class="highlight">
+                                                                        <tr>
+                                                                            <td>Maksymalna kwota pojedynczej operacji </td>
+                                                                            <td>@ld zł</td>
+
+                                                                        </tr>
+                                                                    </table>
+
+                                                                    <p>Limit dzienny</p>
+                                                                    <table class="highlight">
+                                                                        <tr>
+                                                                            <td>Maksymalna kwota transakcji danego dnia</td>
+                                                                            <td>@md zł</td>
+                                                                        </tr>
+                                                                    </table>
+                                                                    <br />
+                                                                    <br /> <br />
+                                                                    <hr />
+
+
+                                                                }
+                                                            }
+                                                            else
+                                                            {
+                                                                <text> Nie masz założonego jeszcze żadnego rachunku.</text>
+                                                            }
+                                                        </div>
+                                                        <div id="lokaty" class="col s12">
+                                                            <br>
+                                                            @if (l_lokat.Count != 0)
+                                                            {
+                                                                foreach (var item in l_lokat)
+                                                                {
+                                                                    string m = item.kwota.ToString();
+                                                                    m = m.Substring(0, m.Length - 2);
+                                                                    var date2 = @item.data.GetValueOrDefault().ToString("dd/MM/yyyy");
+                                                                    <table class="highlight">
+                                                                        <tr>
+                                                                            <td>Kwota znajdująca się aktualnie na lokacie:</td>
+                                                                            <td>
+                                                                                @m złotych
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td>Data zawarcia lokaty:</td>
+                                                                            <td>
+                                                                                @date2
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td>Ilość miesięcy:</td>
+                                                                            <td>
+                                                                                @item.okres miesięcy
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td>Procent:</td>
+                                                                            <td>
+                                                                                @item.oprocentowanie %
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td>Data zakończenia lokaty:</td>
+                                                                            <td>
+                                                                                01/01/2027
+                                                                            </td>
+                                                                        </tr>
+                                                                    </table>
+                                                                    <br />
+                                                                    <br /> <br />
+                                                                    <hr />
+                                                                }
+                                                            }
+                                                            else
+                                                            {
+                                                                <table class="highlight">
+                                                                    <tr>
+                                                                        <td>Brak otwartych lokat</td>
+                                                                        <td>
+                                                                            <a href="#">
+                                                                                <p class="m-0">Otwórz lokatę</p>
+                                                                            </a>
+                                                                        </td>
+                                                                    </tr>
+                                                                </table>
+                                                            }
+
+                                                        </div>
+                                        </div>
+
+
+
+
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col s12 m12 l3 hide-on-med-and-down">
+                            <div class="row">
+                                <div class="col s12">
+                                    <h6>Ostatnie operacje (kliknij na kwotę aby zobaczyć szczegóły):</h6>
+                                    @if (tr_list.Count != 0 && list.Count != 0)
+                                    {
+
+                                        foreach (var item in list)
+                                        {
+                                            int i = 0;
+                                            string c1 = @item.numer_konta.Substring(0, 2);
+                                            string c2 = @item.numer_konta.Substring(2);
+                                            c2 = System.Text.RegularExpressions.Regex.Replace(c2, ".{4}", "$0 ");
+                                            <b>Dla numeru konta @c1 @c2 </b>
+                                            foreach (var item2 in tr_list)
+                                            {
+                                                string kw = item2.kwota.ToString();
+                                                kw = kw.Substring(0, kw.Length - 2);
+                                                if (item.numer_konta == item2.numer_konta_nadawca)
+                                                {
+                                                    i++;
+                                                    <text><p class="latest-update">@item2.tytul <span class="right"> <a class="modal-trigger" href="#details@(item.id_konta)@(item2.id_transakcji)" title="Zobacz szczegóły" style="color:red;"> - @kw zł</a> </span></p></text>
+                                                }
+                                                else
+                                                {
+                                                    if (item.numer_konta == item2.numer_konta_odbiorca)
+                                                    {
+                                                        i++;
+                                                        <text><p class="latest-update">@item2.tytul <span class="right"> <a class="modal-trigger" href="#details@(item.id_konta)@(item2.id_transakcji)" title="Zobacz szczegóły" style="color:forestgreen;"> + @kw zł</a> </span></p></text>
+                                                    }
+                                                }
+
+
+                                            }
+                                            if (i == 0)
+                                            { <br />
+                                                <text>Brak transakcji w ostatnim czasie</text>
+                                            }
+                                            <br /> <br /> <br />
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <text> Brak operacji </text>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    if (Session["transakcje"] != null)
+    {
+        decimal? prev_money = 0;
+        foreach (var acc in list)
+        {
+            foreach (var item in tr_list)
+            {
+                if (item.numer_konta_nadawca == acc.numer_konta || item.numer_konta_odbiorca == acc.numer_konta)
+                {
+                    prev_money = acc.stan_konta;
+
+
+                    foreach (var item2 in tr_list)
+                    {
+                        if (item.id_transakcji < item2.id_transakcji)
+                        {
+                            if (item2.numer_konta_nadawca == acc.numer_konta)
+                            {
+                                prev_money += item2.kwota;
+                            }
+                            if (item2.numer_konta_odbiorca == acc.numer_konta)
+                            {
+                                prev_money -= item2.kwota;
+                            }
+                        }
+                    }
+
+                    string c1 = @item.numer_konta_nadawca.Substring(0, 2);
+                    string c2 = @item.numer_konta_nadawca.Substring(2);
+                    c2 = System.Text.RegularExpressions.Regex.Replace(c2, ".{4}", "$0 ");
+
+                    string o1 = @item.numer_konta_odbiorca.Substring(0, 2);
+                    string o2 = @item.numer_konta_odbiorca.Substring(2);
+                    o2 = System.Text.RegularExpressions.Regex.Replace(o2, ".{4}", "$0 ");
+
+                    string kw = item.kwota.ToString().Substring(0, item.kwota.ToString().Length - 2);
+                    var date2 = @item.data.GetValueOrDefault().ToString("dd/MM/yyyy");
+                    string kw_af = prev_money.ToString().Substring(0, prev_money.ToString().Length - 2);
+
+
+
+                    <div id="details@(acc.id_konta)@(item.id_transakcji)" class="modal">
+                        <div class="modal-content">
+                            <h4>Tytuł operacji:<span style="color:brown"> @item.tytul</span></h4>
+                            <p>
+
+                                <table class="highlight">
+                                    <tr>
+                                        <td>Rachunek odbiorcy:</td>
+                                        <td>@o1  @o2</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Nadawca:</td>
+                                        <td>@item.dane_nadawcy</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Odbiorca:</td>
+                                        <td>@item.dane_odbiorcy</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Rachunek nadawcy:</td>
+                                        <td>@c1  @c2</td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>Kwota:</td>
+                                        <td>@kw PLN</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Tytuł:</td>
+                                        <td>@item.tytul </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Data operacji:</td>
+                                        <td>@date2</td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>Numer transakcji:</td>
+                                        <td>@item.id_transakcji</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Saldo po operacji:</td>
+                                        <td>@kw_af PLN</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Rodzaj:</td>
+                                        <td>@item.nazwa_kategorii</td>
+                                    </tr>
+
+                                </table>
+
+                            </p>
+                            <div class="modal-footer">
+                                <a href="#!" class="modal-close waves-effect waves-green btn-flat">Zamknij</a>
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+        }
+    }
+
+
+
+}

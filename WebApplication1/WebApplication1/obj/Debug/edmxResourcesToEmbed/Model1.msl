@@ -1,0 +1,184 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="BankModelStoreContainer" CdmEntityContainer="DB_Entities">
+    <EntitySetMapping Name="Kliencis">
+      <EntityTypeMapping TypeName="BankModel.Klienci">
+        <MappingFragment StoreEntitySet="Klienci">
+          <ScalarProperty Name="plec" ColumnName="plec" />
+          <ScalarProperty Name="id_klienta" ColumnName="id_klienta" />
+          <ScalarProperty Name="login" ColumnName="login" />
+          <ScalarProperty Name="haslo" ColumnName="haslo" />
+          <ScalarProperty Name="imie" ColumnName="imie" />
+          <ScalarProperty Name="nazwisko" ColumnName="nazwisko" />
+          <ScalarProperty Name="pesel" ColumnName="pesel" />
+          <ScalarProperty Name="numer_dowodu" ColumnName="numer_dowodu" />
+          <ScalarProperty Name="telefon" ColumnName="telefon" />
+          <ScalarProperty Name="email" ColumnName="email" />
+          <ScalarProperty Name="data_ur" ColumnName="data_ur" />
+          <ScalarProperty Name="blokada" ColumnName="blokada" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Kontas">
+      <EntityTypeMapping TypeName="BankModel.Konta">
+        <MappingFragment StoreEntitySet="Konta">
+          <ScalarProperty Name="id_konta" ColumnName="id_konta" />
+          <ScalarProperty Name="numer_konta" ColumnName="numer_konta" />
+          <ScalarProperty Name="typ_konta" ColumnName="typ_konta" />
+          <ScalarProperty Name="stan_konta" ColumnName="stan_konta" />
+          <ScalarProperty Name="limit_d" ColumnName="limit_d" />
+          <ScalarProperty Name="limit_m" ColumnName="limit_m" />
+          <ScalarProperty Name="data_otwarcia" ColumnName="data_otwarcia" />
+          <ScalarProperty Name="id_klienta" ColumnName="id_klienta" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Kredyties">
+      <EntityTypeMapping TypeName="BankModel.Kredyty">
+        <MappingFragment StoreEntitySet="Kredyty">
+          <ScalarProperty Name="prowizja" ColumnName="prowizja" />
+          <ScalarProperty Name="rrso" ColumnName="rrso" />
+          <ScalarProperty Name="id_kredytu" ColumnName="id_kredytu" />
+          <ScalarProperty Name="id_klienta" ColumnName="id_klienta" />
+          <ScalarProperty Name="data_zawarcia" ColumnName="data_zawarcia" />
+          <ScalarProperty Name="kwota" ColumnName="kwota" />
+          <ScalarProperty Name="okres_kredytowania" ColumnName="okres_kredytowania" />
+          <ScalarProperty Name="oprocentowanie" ColumnName="oprocentowanie" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Lokaties">
+      <EntityTypeMapping TypeName="BankModel.Lokaty">
+        <MappingFragment StoreEntitySet="Lokaty">
+          <ScalarProperty Name="id_lokaty" ColumnName="id_lokaty" />
+          <ScalarProperty Name="id_klienta" ColumnName="id_klienta" />
+          <ScalarProperty Name="data_rozpoczecia" ColumnName="data_rozpoczecia" />
+          <ScalarProperty Name="kwota" ColumnName="kwota" />
+          <ScalarProperty Name="oprocentowanie" ColumnName="oprocentowanie" />
+          <ScalarProperty Name="okres" ColumnName="okres" />
+          <ScalarProperty Name="kapitalizacja" ColumnName="kapitalizacja" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Raty_kredytu">
+      <EntityTypeMapping TypeName="BankModel.Raty_kredytu">
+        <MappingFragment StoreEntitySet="Raty_kredytu">
+          <ScalarProperty Name="id_raty" ColumnName="id_raty" />
+          <ScalarProperty Name="id_kredytu" ColumnName="id_kredytu" />
+          <ScalarProperty Name="kwota_raty" ColumnName="kwota_raty" />
+          <ScalarProperty Name="czy_splacona" ColumnName="czy_splacona" />
+          <ScalarProperty Name="termin_splaty" ColumnName="termin_splaty" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="sysdiagrams">
+      <EntityTypeMapping TypeName="BankModel.sysdiagram">
+        <MappingFragment StoreEntitySet="sysdiagrams">
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+          <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+          <ScalarProperty Name="version" ColumnName="version" />
+          <ScalarProperty Name="definition" ColumnName="definition" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="typy_transakcji">
+      <EntityTypeMapping TypeName="BankModel.typy_transakcji">
+        <MappingFragment StoreEntitySet="typy_transakcji">
+          <ScalarProperty Name="id_typu" ColumnName="id_typu" />
+          <ScalarProperty Name="nazwa_typu" ColumnName="nazwa_typu" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Kody_Autoryzujace">
+      <EntityTypeMapping TypeName="BankModel.Kody_Autoryzujace">
+        <MappingFragment StoreEntitySet="Kody_Autoryzujace">
+          <ScalarProperty Name="aktywny" ColumnName="aktywny" />
+          <ScalarProperty Name="numer_kodu" ColumnName="numer_kodu" />
+          <ScalarProperty Name="id_klienta" ColumnName="id_klienta" />
+          <ScalarProperty Name="kod" ColumnName="kod" />
+          <ScalarProperty Name="id_kodu" ColumnName="id_kodu" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Plcies">
+      <EntityTypeMapping TypeName="BankModel.Plcie">
+        <MappingFragment StoreEntitySet="Plcie">
+          <ScalarProperty Name="nazwa" ColumnName="nazwa" />
+          <ScalarProperty Name="id_plci" ColumnName="id_plci" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="kategories">
+      <EntityTypeMapping TypeName="BankModel.kategorie">
+        <MappingFragment StoreEntitySet="kategorie">
+          <ScalarProperty Name="nazwa_kategorii" ColumnName="nazwa_kategorii" />
+          <ScalarProperty Name="id_kategorii" ColumnName="id_kategorii" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tokenies">
+      <EntityTypeMapping TypeName="BankModel.tokeny">
+        <MappingFragment StoreEntitySet="tokeny">
+          <ScalarProperty Name="kod" ColumnName="kod" />
+          <ScalarProperty Name="email" ColumnName="email" />
+          <ScalarProperty Name="id_tokenu" ColumnName="id_tokenu" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Transakcjes">
+      <EntityTypeMapping TypeName="BankModel.Transakcje">
+        <MappingFragment StoreEntitySet="Transakcje">
+          <ScalarProperty Name="wykonane" ColumnName="wykonane" />
+          <ScalarProperty Name="dane_osobowe_nadawca" ColumnName="dane_osobowe_nadawca" />
+          <ScalarProperty Name="do_kogo" ColumnName="do_kogo" />
+          <ScalarProperty Name="od_kogo" ColumnName="od_kogo" />
+          <ScalarProperty Name="kategoria" ColumnName="kategoria" />
+          <ScalarProperty Name="dane_osobowe" ColumnName="dane_osobowe" />
+          <ScalarProperty Name="tytul" ColumnName="tytul" />
+          <ScalarProperty Name="data_transakcji" ColumnName="data_transakcji" />
+          <ScalarProperty Name="kwota" ColumnName="kwota" />
+          <ScalarProperty Name="typ_transakcji" ColumnName="typ_transakcji" />
+          <ScalarProperty Name="id_transakcji" ColumnName="id_transakcji" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Typy_Konta">
+      <EntityTypeMapping TypeName="BankModel.Typy_Konta">
+        <MappingFragment StoreEntitySet="Typy_Konta">
+          <ScalarProperty Name="opis" ColumnName="opis" />
+          <ScalarProperty Name="prowizja" ColumnName="prowizja" />
+          <ScalarProperty Name="oplata_za_prowadzenie" ColumnName="oplata_za_prowadzenie" />
+          <ScalarProperty Name="nazwa_typu" ColumnName="nazwa_typu" />
+          <ScalarProperty Name="id_typu" ColumnName="id_typu" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="powiadomienias">
+      <EntityTypeMapping TypeName="BankModel.powiadomienia">
+        <MappingFragment StoreEntitySet="powiadomienia">
+          <ScalarProperty Name="tresc" ColumnName="tresc" />
+          <ScalarProperty Name="numer_konta" ColumnName="numer_konta" />
+          <ScalarProperty Name="id_powiadomienia" ColumnName="id_powiadomienia" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Przelewy_Cykliczne">
+      <EntityTypeMapping TypeName="BankModel.Przelewy_Cykliczne">
+        <MappingFragment StoreEntitySet="Przelewy_Cykliczne">
+          <ScalarProperty Name="co_ile_dni" ColumnName="co_ile_dni" />
+          <ScalarProperty Name="dane_osobowe_nadawca" ColumnName="dane_osobowe_nadawca" />
+          <ScalarProperty Name="dane_osobowe" ColumnName="dane_osobowe" />
+          <ScalarProperty Name="do_kogo" ColumnName="do_kogo" />
+          <ScalarProperty Name="od_kogo" ColumnName="od_kogo" />
+          <ScalarProperty Name="kategoria" ColumnName="kategoria" />
+          <ScalarProperty Name="typ_transakcji" ColumnName="typ_transakcji" />
+          <ScalarProperty Name="tytul" ColumnName="tytul" />
+          <ScalarProperty Name="data" ColumnName="data" />
+          <ScalarProperty Name="kwota" ColumnName="kwota" />
+          <ScalarProperty Name="id_przelewu" ColumnName="id_przelewu" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

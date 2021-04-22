@@ -1,0 +1,321 @@
+﻿
+@{
+    ViewBag.Title = "OfertaKredytowa";
+}
+
+<div class="col s12">
+    <div class="container">
+        <div class="section">
+
+            <div class="section" id="user-index">
+                <div class="row">
+
+
+                    <div class="col s12 ">
+                        <div class="row">
+                            <div class="card user-card-negative-margin z-depth-0" id="feed">
+                                <div class="card-content card-border-gray">
+
+                                    <div class="col s12">
+                                        <h5>Nasza oferta</h5>
+
+                                    </div>
+
+                                    <div class="row">
+
+                                        <div id="kredyt" class="col s12">
+                                            <br>
+
+
+                                            <div class="card">
+                                                <div class="card-image">
+                                                    <img src="~/img/kredyty/1.jpg">
+                                                    <span class="card-title grey darken-4">Kredyt gotówkowy</span>
+                                                </div>
+                                                <div class="card-content">
+                                                    <p> opis kredytu </p>
+                                                    <h5> Kredyt gotówkowy </h5>
+                                                    <br>
+                                                    <div class="row">
+
+
+                                                        <div class="col s12 m4 l4"><p>Oprocentowanie</p> <h5> <a class="tooltipped" data-position="top" data-tooltip="Oprocentowanie stałe 7,20% na cała długość trwania kredytu.">7,20% <i class="material-icons dp48">info_outline</i></a></h5></div>
+                                                        <div class="col s12 m4 l4"><p>Liczba rat</p> <h5> <a class="tooltipped" data-position="top" data-tooltip="Raty są równe, miesięcznie.">do 60 <i class="material-icons dp48">info_outline</i></a></h5></div>
+                                                        <div class="col s12 m4 l4"><p>Kwota</p> <h5><a class="tooltipped" data-position="top" data-tooltip="Kwota gotówki - kwota, którą przekażemy przelewem  na konto po zawarciu umowy.">do 50 000zł <i class="material-icons dp48">info_outline</i></a></h5></div>
+                                                        <div class="row">
+
+                                                           
+
+
+
+                                                        </div>
+
+                                                        </div>
+                                                <div class="card-tabs">
+                                                    <ul class="tabs tabs-fixed-width">
+                                                        <li class="tab"><a class="active" href="#test4">Oferujemy</a></li>
+
+                                                    </ul>
+                                                </div>
+                                                <div class="card-content grey lighten-4">
+                                                    <div id="test4">
+
+                                                        <p>
+                                                            <label>
+                                                                <input type="checkbox" checked="checked" disabled="disabled" />
+                                                                <span>Kredyt do 50 000 bez wychodzenia z domu</span>
+                                                            </label>
+                                                        </p>
+
+                                                        <p>
+                                                            <label>
+                                                                <input type="checkbox" checked="checked" disabled="disabled" />
+                                                                <span>Proste i jasne zasady</span>
+                                                            </label>
+                                                        </p>
+
+                                                        <p>
+                                                            <label>
+                                                                <input type="checkbox" checked="checked" disabled="disabled" />
+                                                                <span>Pieniądze od razu na koncie</span>
+                                                            </label>
+                                                        </p>
+                                                        <br>
+                                                        @using (Html.BeginForm("KalkulatorRat", "Create", FormMethod.Post))
+                                                        {
+                                                            @Html.Hidden("oprocentowanie", 7.20)
+                                                            @Html.Hidden("prowizja", 20.47)
+                                                            @Html.Hidden("min_kwota", 5000)
+                                                            @Html.Hidden("maks_kwota", 50000)
+                                                            @Html.Hidden("min_rat", 3)
+                                                            @Html.Hidden("maks_rat", 60)
+
+                                                            <center>
+                                                                <input type="submit" value="Oblicz raty" class="waves-effect waves-light btn" />
+                                                            </center>
+                                                        }
+
+                                                    </div>
+
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <br>
+
+
+
+
+
+
+
+
+
+                                    </div>
+                                    <br>
+                                    <div class="row">
+
+                                        <div id="kredyt" class="col s12">
+                                            <br>
+
+
+                                            <div class="card">
+                                                <div class="card-image">
+                                                    <img src="~/img/kredyty/1.jpg">
+                                                    <span class="card-title grey darken-4">Długoterminowy kredyt hipoteczny</span>
+                                                </div>
+                                                <div class="card-content">
+                                                    <p>Długoterminowy kredyt hipoteczny </p>
+                                                    <h5>Długoterminowy kredyt hipoteczny </h5>
+                                                    <br>
+                                                    <div class="row">
+
+
+                                                        <div class="col s12 m4 l4"><p>Oprocentowanie</p> <h5> <a class="tooltipped" data-position="top" data-tooltip="Oprocentowanie stałe 3% na cała długość trwania kredytu.">1,8% <i class="material-icons dp48">info_outline</i></a></h5></div>
+                                                        <div class="col s12 m4 l4"><p>Liczba rat</p> <h5> <a class="tooltipped" data-position="top" data-tooltip="Raty są równe, miesięcznie.">do 240 <i class="material-icons dp48">info_outline</i></a></h5></div>
+                                                        <div class="col s12 m4 l4"><p>Kwota</p> <h5><a class="tooltipped" data-position="top" data-tooltip="Kwota gotówki - kwota, którą przekażemy przelewem  na konto po zawarciu umowy.">do 500 000 zł <i class="material-icons dp48">info_outline</i></a></h5></div>
+
+
+
+
+                                                    </div>
+
+                                                </div>
+                                                <div class="card-tabs">
+                                                    <ul class="tabs tabs-fixed-width">
+                                                        <li class="tab"><a class="active" href="#test4">Oferujemy</a></li>
+
+                                                    </ul>
+                                                </div>
+                                                <div class="card-content grey lighten-4">
+                                                    <div id="test4">
+
+                                                        <p>
+                                                            <label>
+                                                                <input type="checkbox" checked="checked" disabled="disabled" />
+                                                                <span>Kredyt do 500 0000 bez wychodzenia z domu</span>
+                                                            </label>
+                                                        </p>
+
+                                                        <p>
+                                                            <label>
+                                                                <input type="checkbox" checked="checked" disabled="disabled" />
+                                                                <span>Proste i jasne zasady</span>
+                                                            </label>
+                                                        </p>
+
+                                                        <p>
+                                                            <label>
+                                                                <input type="checkbox" checked="checked" disabled="disabled" />
+                                                                <span>Pieniądze od razu na koncie</span>
+                                                            </label>
+                                                        </p>
+                                                        <br>
+                                                        <center>
+                                                            @using (Html.BeginForm("KalkulatorRat", "Create", FormMethod.Post))
+                                                            {
+                                                                @Html.Hidden("oprocentowanie", 3)
+                                                                @Html.Hidden("prowizja", 1.5)
+                                                                @Html.Hidden("min_kwota", 100000)
+                                                                @Html.Hidden("maks_kwota", 500000)
+                                                                @Html.Hidden("min_rat", 60)
+                                                                @Html.Hidden("maks_rat", 240)
+
+
+                                                                <center>
+                                                                    <input type="submit" value="Oblicz raty" class="waves-effect waves-light btn" />
+                                                                </center>
+                                                            }
+                                                        </center>
+
+                                                    </div>
+
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <br>
+
+
+
+
+
+
+
+
+
+                                    </div>
+                                    <div class="row">
+
+                                        <div id="kredyt" class="col s12">
+                                            <br>
+
+
+                                            <div class="card">
+                                                <div class="card-image">
+                                                    <img src="~/img/kredyty/1.jpg">
+                                                    <span class="card-title grey darken-4">Chwilówka</span>
+                                                </div>
+                                                <div class="card-content">
+                                                    <p>Chwilówka </p>
+                                                    <h5> Chwilówka </h5>
+                                                    <br>
+                                                    <div class="row">
+
+
+                                                        <div class="col s12 m4 l4"><p>Oprocentowanie</p> <h5> <a class="tooltipped" data-position="top" data-tooltip="Oprocentowanie stałe 20% na cała długość trwania kredytu.">1,8% <i class="material-icons dp48">info_outline</i></a></h5></div>
+                                                        <div class="col s12 m4 l4"><p>Liczba rat</p> <h5> <a class="tooltipped" data-position="top" data-tooltip="Raty są równe, miesięcznie.">do 6 <i class="material-icons dp48">info_outline</i></a></h5></div>
+                                                        <div class="col s12 m4 l4"><p>Kwota</p> <h5><a class="tooltipped" data-position="top" data-tooltip="Kwota gotówki - kwota, którą przekażemy przelewem  na konto po zawarciu umowy.">do 5 000zł <i class="material-icons dp48">info_outline</i></a></h5></div>
+
+
+
+
+                                                    </div>
+
+                                                </div>
+                                                <div class="card-tabs">
+                                                    <ul class="tabs tabs-fixed-width">
+                                                        <li class="tab"><a class="active" href="#test4">Oferujemy</a></li>
+
+                                                    </ul>
+                                                </div>
+                                                <div class="card-content grey lighten-4">
+                                                    <div id="test4">
+
+                                                        <p>
+                                                            <label>
+                                                                <input type="checkbox" checked="checked" disabled="disabled" />
+                                                                <span>Kredyt do 5 000 bez wychodzenia z domu</span>
+                                                            </label>
+                                                        </p>
+
+                                                        <p>
+                                                            <label>
+                                                                <input type="checkbox" checked="checked" disabled="disabled" />
+                                                                <span>Proste i jasne zasady</span>
+                                                            </label>
+                                                        </p>
+
+                                                        <p>
+                                                            <label>
+                                                                <input type="checkbox" checked="checked" disabled="disabled" />
+                                                                <span>Pieniądze nawet w 24h</span>
+                                                            </label>
+                                                        </p>
+                                                        <br>
+                                                        <center>
+                                                            @using (Html.BeginForm("KalkulatorRat", "Create", FormMethod.Post))
+                                                            {
+                                                                @Html.Hidden("oprocentowanie", 20)
+                                                                @Html.Hidden("prowizja", 1)
+                                                                @Html.Hidden("min_kwota", 1000)
+                                                                @Html.Hidden("maks_kwota", 5000)
+                                                                @Html.Hidden("min_rat", 1)
+                                                                @Html.Hidden("maks_rat", 6)
+
+
+                                                                <center>
+                                                                    <input type="submit" value="Oblicz raty" class="waves-effect waves-light btn" />
+                                                                </center>
+                                                            }
+                                                        </center>
+
+                                                    </div>
+
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <br>
+
+
+
+
+
+
+
+
+
+                                    </div>
+
+
+                                </div>
+
+
+                            </div>
+
+
+                            <!-------->
+
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+</div>
+</div>

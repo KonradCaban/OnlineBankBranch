@@ -1,0 +1,201 @@
+﻿@model WebApplication1.Models.Kod
+@using WebApplication1.Models
+@{ List<infoKredyt> list = (List<infoKredyt>)TempData["l_w_kredytow"];}
+@{ List<subKonta> r_list = (List<subKonta>)Session["konta"];}
+
+
+<div class="parallax-container valign-wrapper">
+    <div class="section no-pad-bot">
+        <div class="container">
+            <div class="row center">
+                <h1 class="header center white-text text-lighten-2">Kredyt hipoteczny?</h1>
+                <h5 class="header col s12 light white-text"> <b> Z naszym bankiem złożenie wniosku zajmie Ci to 5 minut!</b></h5>
+            </div>
+        </div>
+    </div>
+    <div class="parallax"><img src="~/img/deposit/5.jpg" alt="Unsplashed background img 3"></div>
+</div>
+
+
+<div class="container">
+    <div class="section">
+
+        @if (list.Count != 0)
+        {
+            int i = 0;
+            foreach (var item in list)
+            {
+                string m = item.kwota.ToString();
+                m = m.Substring(0, m.Length - 2);
+                var data_zaw = @item.data.GetValueOrDefault().ToString("dd/MM/yyyy");
+                <ul class="collapsible">
+                    <li>
+                        @if (item.raty_pozostale == 0)
+                        {
+                            <div class="collapsible-header"><h6 class="truncate">Kredyt na kwotę @m złotych, zawiązany @data_zaw - SPŁACONY </h6></div>
+                        }
+                        else
+                        {
+                            <div class="collapsible-header"><h6 class="truncate">Kredyt na kwotę @m złotych, zawiązany @data_zaw - AKTYWNY </h6></div>
+                        }
+                        <div class="collapsible-body">
+                            <p>Podstawowe dane dotyczące tego kredytu:</p>
+                            <table>
+                                @if (item.raty_pozostale == 0)
+                                {
+                                    <tr>
+                                        <th style="width:30%">Status:</th>
+                                        <td>Spłacony</td>
+                                    </tr>
+                                }
+                                else
+                                {
+                                    <tr>
+                                        <th style="width:30%">Status:</th>
+                                        <td>Aktywny</td>
+                                    </tr>
+                                }
+                                <tr>
+                                    <th>Kwota kredytu:</th>
+                                    <td>@m złotych</td>
+                                </tr>
+                                <tr>
+                                    <th>Wysokość prowizji:</th>
+                                    <td>@item.prowizja %</td>
+                                </tr>
+                                <tr>
+                                    <th>Wysokość oprocentowania:</th>
+                                    <td>@item.oprocentowanie %</td>
+                                </tr>
+                                <tr>
+                                    <th>Data wzięcia pożyczki:</th>
+                                    <td>@data_zaw</td>
+                                </tr>
+                                <tr>
+                                    <th>Ilość rat:</th>
+                                    @if (item.okres == 1)
+                                    {
+                                        <td>@item.okres rata</td>
+
+                                    }
+                                    @if (item.okres < 5 && item.okres > 1)
+                                    {
+                                        <td>@item.okres raty</td>
+
+                                    }
+                                    @if (item.okres > 5)
+                                    {
+                                        <td>@item.okres rat</td>
+
+                                    }
+                                </tr>
+                                <tr>
+                                    <th>Wysokość RRSO:</th>
+                                    <td>@item.rrso %</td>
+                                </tr>
+                                @if (item.raty_pozostale > 0)
+                                {
+                                    var termin = @item.termin_splaty.GetValueOrDefault().ToString("dd/MM/yyyy");
+                                    string kwota_raty = item.kwota_najbliszej_raty.ToString();
+                                    kwota_raty = kwota_raty.Substring(0, kwota_raty.Length - 2);
+                                    <tr>
+                                        <th>Wysokość najbliższej raty: </th>
+                                        <td>@kwota_raty złotych</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Termin spłaty najbliższej raty:</th>
+                                        <td>@termin</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Ilość pozostałych rat:</th>
+                                        @if (item.raty_pozostale == 1)
+                                        {
+                                            <td>@item.raty_pozostale rata</td>
+
+                                        }
+                                        @if (item.raty_pozostale < 5 && item.raty_pozostale > 1)
+                                        {
+                                            <td>@item.raty_pozostale raty</td>
+
+                                        }
+                                        @if (item.raty_pozostale > 5)
+                                        {
+                                            <td>@item.raty_pozostale rat</td>
+
+                                        }
+                                    </tr>
+                                    <tr>
+                                        
+                                        <td colspan="2">
+                                            <center> <a class="waves-effect waves-light btn modal-trigger" href="#modal@(item.id_kr)">Jeśli chcesz spłacić najbliższą ratę, kliknij tutaj</a> </center>
+                                        </td>
+                                    </tr>
+                                    <div id="modal@(item.id_kr)" class="modal">
+                                        <div class="modal-content">
+                                            <h4>Autoryzacja</h4>
+                                            <div class="row">
+                                                @using (Html.BeginForm("SplataRaty", "Create", FormMethod.Post))
+                                                {
+
+                                                    <div class="input-field col s6">
+                                                        Podaj hasło: <input type="password" class="validate" name="password" maxlength="50" minlength="6" required />
+                                                    </div>
+
+                                                    <div class="input-field col s6">
+                                                        Podaj kod autoryzacyjny numer @Html.DisplayFor(p => p.numer_kodu):<input type="text" class="validate" name="kod" maxlength="6" minlength="6" required />
+                                                        @Html.Hidden("check_code", @Html.DisplayFor(p => p.kod))
+                                                    </div>
+                                                    <div class="input-field col s6">
+                                                        Kwota do zapłaty: @kwota_raty złotych
+                                                    </div>
+                                                    <input type="hidden" name="id_kredytu" value=" @item.id_kr" />
+                                                    <input type="hidden" name="rata" value=" @item.kwota_najbliszej_raty" />
+
+                                                    <label for="konto_cel">Wybierz konto docelowe: </label>
+                                                    <select name="konto_cel" id="konto_cel">
+
+                                                        @foreach (var item2 in r_list)
+                                                        {
+                                                            string c1 = @item2.numer_konta.Substring(0, 2);
+                                                            string c2 = @item2.numer_konta.Substring(2);
+                                                            c2 = System.Text.RegularExpressions.Regex.Replace(c2, ".{4}", "$0 ");
+                                                            string x = item2.stan_konta.ToString();
+                                                            x = x.Substring(0, m.Length - 2);
+                                                            <option value="@item2.numer_konta"> Konto @c1 @c2 (@m zł)</option>
+                                                        }
+                                                    </select>
+
+
+                                                    <center>Uwaga! Do przelewu należy doliczyć koszta prowizji!</center>
+
+                                                    <div class="input-field col s12">
+                                                        <br />
+                                                        <center>
+                                                            <input type="submit" value="Spłać ratę" class="btn" />
+                                                        </center>
+                                                    </div>
+
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            </table>
+                            <br />
+                            <br />
+
+
+                        </div>
+                    </li>
+                </ul>
+
+
+            }
+        }
+        else
+        {
+            <center>BRAK KREDYTÓW</center>
+        }
+
+    </div>
+</div>

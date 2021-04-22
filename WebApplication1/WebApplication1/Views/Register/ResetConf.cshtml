@@ -1,0 +1,46 @@
+﻿@model WebApplication1.Models.Klient
+@{
+    ViewBag.Title = "ResetConf";
+}
+<div class="container">
+    <center>
+        <div class="z-depth-3 y-depth-3 x-depth-3 grey  lighten-4 row" style="display: inline-block; padding: 32px 48px 0px 48px; border: 1px; margin-top: 100px; solid #EEE;">
+            <div class="card-content">
+                <h4 class="card-title">Odzyskiwanie hasła</h4>
+                <div class="row">
+                    <p> Każde hasło powinno się składać minimalnie z 8 znaków, mały wielkich liter, cyfr oraz znaków specjalnych lub kombinacji słów. Bardziej złożone hasło zapewnia większe bezpieczeństwo. </p>
+                    @using (Html.BeginForm("ChangePassword", "Register", FormMethod.Post))
+                    {
+
+                        <div class="row">
+                            <div class="input-field col s12">
+                                @Html.LabelFor(x => x.haslo, "Wpisz nowe hasło", htmlAttributes: new { @class = "control-label col-md-2", @for = "icon_prefix1" })
+                                @Html.EditorFor(x => x.haslo, new { htmlAttributes = new { @class = "validate", name = "newpassword", @id = "icon_prefix1" } })
+                                @Html.ValidationMessageFor(x => x.haslo, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="input-field col s12">
+                            <input type="password" id="icon_prefix2" class="validate" name="password_repeat" maxlength="50" minlength="6" placeholder="Powtórz nowe hasło" />
+                        </div>
+
+                        @Html.Hidden("id", (object)ViewBag.id)
+                        <div class="input-field col s12">
+                            <button class="btn waves-effect waves-light right" type="submit" name="action">
+                                Zmień hasło
+                                <i class="material-icons right">send</i>
+                            </button>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </center>
+</div>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+

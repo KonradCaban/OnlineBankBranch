@@ -1,0 +1,66 @@
+﻿@using WebApplication1.Models
+@{ List<subKonta> list = (List<subKonta>)TempData["konta"]; int[] cl = (int[])TempData["ile"];}
+
+
+
+<div class="parallax-container valign-wrapper">
+    <div class="section no-pad-bot">
+        <div class="container">
+            <div class="row center">
+                <h1 class="header center white-text text-lighten-2">Kredyt hipoteczny?</h1>
+                <h5 class="header col s12 light white-text"> <b> Z naszym bankiem złożenie wniosku zajmie Ci to 5 minut!</b></h5>
+            </div>
+        </div>
+    </div>
+    <div class="parallax"><img src="~/img/deposit/5.jpg" alt="Unsplashed background img 3"></div>
+</div>
+
+
+<div class="container">
+    <div class="section">
+        
+            @if (list.Count != 0)
+            {
+                int i = 0;
+                foreach (var item in list)
+                {
+
+                    string c1 = item.numer_konta.Substring(0, 2);
+                    string c2 = item.numer_konta.Substring(2);
+                    c2 = System.Text.RegularExpressions.Regex.Replace(c2, ".{4}", "$0 ");
+                    string kw = item.stan_konta.ToString().Substring(0, item.stan_konta.ToString().Length - 2);
+                        <ul class="collapsible">
+                            <li>
+                                <div class="collapsible-header"><h6 class="truncate">Konto @item.nazwa_typu: @c1  @c2</h6></div>
+                                <div class="collapsible-body">
+                                    <p>Podstawowe dane dotyczące tego konta:</p>
+                                    <table>
+                                        <tr>
+                                            <th style="width:30%">Aktualny stan konta:</th>
+                                            <td>@kw zł;</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Liczba transakcji z użyciem tego konta:</th>
+                                            <td>@cl[i]</td>
+                                        </tr>
+                                    </table>
+                                        <br />  
+                                        <br />
+                                        @using (Html.BeginForm("UsunKonto", "Delete", FormMethod.Post))
+                                        {
+                                            <input type="hidden" name="id_konta" value="@item.id_konta" />
+                                            <center>
+                                                <input type="submit" value="Jeśli chcesz zlikwidować ten rachunek, kliknij tutaj" class="btn" />
+                                            </center>
+                                        }
+                                  
+                                </div>
+                            </li>
+                        </ul>
+                  
+                    i++;
+                }
+            }
+      
+    </div>
+</div>

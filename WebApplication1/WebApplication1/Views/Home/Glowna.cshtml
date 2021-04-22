@@ -1,0 +1,123 @@
+﻿@using WebApplication1.Models
+@{ List<Acc_Info> info = (List<Acc_Info>)ViewData["info"];  }
+
+<div id="index-banner" class="parallax-container">
+    <div class="section no-pad-bot">
+        <div class="container">
+            <br><br>
+            <h1 class="header center black-text text-lighten-2">Konto oszczędnościowe</h1>
+            <div class="row center">
+                <h5 class="header col s12 light brown-text">Oprocentowanie konta, jak na lokacie oraz swobodny dostęp do wszystkich środków!</h5>
+            </div>
+            <div class="row center">
+                @Html.ActionLink("Załóż konto", "Registration", "Home", null, new { @style = "color:black;", @id = "download-button", @class = "btn-large waves-effect waves-light teal lighten-1" })
+            </div>
+            <br><br>
+
+        </div>
+    </div>
+    <div class="parallax"><img src="~/img/deposit/1.jpg" alt="Unsplashed background img 1"></div>
+</div>
+
+
+
+
+
+
+
+<div class="container">
+    <div class="section">
+
+        <div class="row">
+            <div class="col s12 center">
+                <h3><i class="mdi-content-send brown-text"></i></h3>
+                <h4>Poznaj niektóre oferty naszego banku</h4>
+
+
+                <div class="row">
+                    <div class="col s12 m4 l4">
+                        <div class="card">
+                            <div class="card-image waves-effect waves-block waves-light">
+                                <img class="activator" src="~/img/deposit/3.jpg">
+                            </div>
+                            <div class="card-content">
+                                <span class="card-title activator grey-text text-darken-4">Konto @info[0].nazwa_typu<i class="material-icons right">more_vert</i></span>
+                                <p>@Html.ActionLink("Załóż teraz!", "Registration", "Home", null)</p>
+                            </div>
+                            <div class="card-reveal">
+
+
+                                <span class="card-title grey-text text-darken-4">Konto @info[0].nazwa_typu<i class="material-icons right">close</i></span>
+
+                                    <p>@info[0].opis</p>
+                                    @Html.ActionLink("Załóż teraz!", "Registration", "Home", null, new { @class = "waves-effect waves-light btn gradient-45deg-deep-purple-blue mt-2 mr-2" })
+
+
+
+
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col s12 m4 l4">
+                        <div class="card">
+                            <div class="card-image waves-effect waves-block waves-light">
+                                <img class="activator" src="~/img/deposit/4.jpg">
+                            </div>
+                            <div class="card-content">
+                                <span class="card-title activator grey-text text-darken-4">Konto @info[1].nazwa_typu<i class="material-icons right">more_vert</i></span>
+                                <p>@Html.ActionLink("Załóż teraz!", "Registration", "Home", null)</p>
+                            </div>
+                            <div class="card-reveal">
+
+                                <span class="card-title grey-text text-darken-4">Konto @info[1].nazwa_typu<i class="material-icons right">close</i></span>
+
+                                <p>@info[1].opis</p>
+                                @Html.ActionLink("Załóż teraz!", "Registration", "Home", null, new { @class = "waves-effect waves-light btn gradient-45deg-deep-purple-blue mt-2 mr-2" })
+
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col s12 m4 l4">
+                        <div class="card">
+                            <div class="card-image waves-effect waves-block waves-light">
+                                <img class="activator" src="~/img/deposit/2.jpg">
+                            </div>
+                            <div class="card-content">
+                                <span class="card-title activator grey-text text-darken-4">Konto @info[2].nazwa_typu<i class="material-icons right">more_vert</i></span>
+                                <p>@Html.ActionLink("Załóż teraz!", "Registration", "Home", null)</p>
+                            </div>
+                            <div class="card-reveal">
+
+                                <span class="card-title grey-text text-darken-4">Konto @info[2].nazwa_typu<i class="material-icons right">close</i></span>
+
+                                <p>@info[2].opis</p>
+                                @Html.ActionLink("Załóż teraz!", "Registration", "Home", null, new { @class = "waves-effect waves-light btn gradient-45deg-deep-purple-blue mt-2 mr-2" })
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<div class="parallax-container valign-wrapper">
+    <div class="section no-pad-bot">
+        <div class="container">
+            <div class="row center">
+                <h1 class="header center white-text text-lighten-2">Kredyt hipoteczny?</h1>
+                <h5 class="header col s12 light white-text"> <b> Z naszym bankiem złożenie wniosku zajmie Ci to 5 minut!</b></h5>
+            </div>
+        </div>
+    </div>
+    <div class="parallax"><img src="~/img/deposit/5.jpg" alt="Unsplashed background img 3"></div>
+</div>
+

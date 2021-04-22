@@ -1,0 +1,241 @@
+﻿@model WebApplication1.Models.Klient
+@using WebApplication1.Models
+@{ Klient kl = new Klient(); List<subKonta> konta = new List<subKonta>(); Kod kod = new Kod();}
+@if (Session["Klient"] == null || Session["kod"] == null)
+{
+    Response.Redirect("~/Home/Login");
+}
+else
+{
+    kl = (Klient)Session["Klient"];
+    kod = (Kod)Session["kod"];
+}
+@if (Session["konta"] != null)
+{
+    konta = (List<subKonta>)Session["konta"];
+}
+
+<div class="parallax-container valign-wrapper">
+    <div class="section no-pad-bot">
+        <div class="container">
+            <div class="row center">
+                <h1 class="header center white-text text-lighten-2">Kredyt hipoteczny?</h1>
+                <h5 class="header col s12 light white-text"> <b> Z naszym bankiem złożenie wniosku zajmie Ci to 5 minut!</b></h5>
+            </div>
+        </div>
+    </div>
+    <div class="parallax"><img src="~/img/deposit/5.jpg" alt="Unsplashed background img 3"></div>
+</div>
+
+<div class="container">
+    <div class="section">
+        <ul class="collapsible">
+            <li>
+
+
+
+                <div class="collapsible-header"><i class="material-icons">account_balance</i>Bankowość internetowa</div>
+                <div class="collapsible-body">
+                    Ustaw tutaj swoje limity - dla każdego swojego konta, dla pojedyńczej operacji oraz dziennego limitu.
+                    Ustawienie 0 oznacza brak limitu.
+                    Wartość w złotówkach.
+
+
+
+                    @if (konta.Count != 0)
+                    {
+
+                        foreach (var item in konta)
+                        {
+                            using (Html.BeginForm("Limity", "Edit", FormMethod.Post))
+                            {
+                                <input type="hidden" name="id_k" value=@item.id_konta />
+                                <input type="hidden" name="old_limit_o" value=@item.limit_d.ToString() />
+                                <input type="hidden" name="old_limit_d" value=@item.limit_m.ToString() />
+                               string c1 = @item.numer_konta.Substring(0, 2);
+                               string c2 = @item.numer_konta.Substring(2);
+                                c2 = System.Text.RegularExpressions.Regex.Replace(c2, ".{4}", "$0 ");
+                                <center> <h5>Numer konta: @c1  @c2</h5></center>
+                                <text>Limit pojedyńczej operacji:</text>
+                                <p class="range-field">
+                                    <input type="range" name="limit_o" min="0" max="3000" step="100" value=@item.limit_d />
+                                </p>
+
+                                <text>Limit dzienny:</text>
+                                <p class="range-field">
+                                    <input type="range" name="limit_d" min="0" max="10000" step="200" value=@item.limit_m />
+                                </p>
+                                <p class="latest-update"> <span class="right"> <a class="modal-trigger" href="#details@(item.id_konta)" title="Kliknij tutaj aby zapisać zmiany" style="color:red;">Zapisz zmiany</a> </span></p>
+
+                                <br />
+                                <hr />
+
+
+                                <div id="details@(item.id_konta)" class="modal">
+                                    <div class="modal-content">
+                                        <h4><span style="color:brown">Potwierdzenie</span></h4>
+                                        <p>
+                                            <br />
+
+                                            Podaj kod autoryzacyjny numer @kod.numer_kodu:<input type="text" class="form-control" name="kod" maxlength="6" minlength="6" placeholder="Podaj kod autoryzacyjny" required />
+                                            <input type="hidden" name="kod_check" value=@kod.kod>
+
+                                            <button class="btn waves-effect waves-light right" type="submit" name="action@(item.id_konta)">
+                                                Zapisz
+                                                <i class="material-icons right">send</i>
+                                            </button>
+
+                                        </p>
+                                        <br />
+                                        <div class="modal-footer">
+                                            <a href="#!" class="modal-close waves-effect waves-green btn-flat">Zamknij</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        }
+                    }
+                    else
+                    {
+                        <text> Nie masz założonego jeszcze żadnego rachunku.<br />Kliknij <a>tutaj</a> aby założyć swój pierwszy rachunek.</text>
+                    }
+
+
+
+
+
+
+                </div>
+            </li>
+            <li>
+                <div class="collapsible-header"><i class="material-icons">fingerprint</i>Bezpieczeństwo konta</div>
+                <div class="collapsible-body">
+                    <h5>Pamiętaj! Regularna zmiana hasła zwiększa bezpieczeństwo twoich danych.</h5>
+                    <br>
+
+                    <div class="row">
+                        @using (Html.BeginForm("Haslo", "Edit", FormMethod.Post))
+                        {
+                            <div class="row">
+                                <div class="input-field col s12">
+                                    <input type="password" class="form-control" name="old_password" maxlength="50" minlength="6" placeholder="Wpisz stare hasło" required />
+
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="input-field col s6">
+                                    @Html.LabelFor(x => x.haslo, "Wpisz nowe hasło", htmlAttributes: new { @class = "control-label col-md-2" })
+                                    @Html.EditorFor(x => x.haslo, new { htmlAttributes = new { @class = "form-control", name = "newpassword" } })
+                                    @Html.ValidationMessageFor(x => x.haslo, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="input-field col s6">
+                                    <input type="password" class="form-control" name="new_password_r" maxlength="50" minlength="6" placeholder="Powtórz nowe hasło" required />
+                                </div>
+
+                            </div>
+                            <p class="latest-update"> <span class="right"> <a class="modal-trigger" href="#password" title="Kliknij tutaj aby zapisać zmiany" style="color:red;">Zapisz zmiany</a> </span></p>
+                            <div id="password" class="modal">
+                                <div class="modal-content">
+                                    <h4><span style="color:brown">Potwierdzenie</span></h4>
+                                    <p>
+                                        <br />
+
+                                        Podaj kod autoryzacyjny numer @kod.numer_kodu:<input type="text" class="form-control" name="kod" maxlength="6" minlength="6" placeholder="Podaj kod autoryzacyjny" required />
+                                        <input type="hidden" name="kod_check" value=@kod.kod>
+
+                                        <button class="btn waves-effect waves-light right" type="submit" name="action">
+                                            Zapisz
+                                            <i class="material-icons right">send</i>
+                                        </button>
+
+                                    </p>
+                                    <br />
+                                    <div class="modal-footer">
+                                        <a href="#!" class="modal-close waves-effect waves-green btn-flat">Zamknij</a>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+
+
+                </div>
+            </li>
+            <li>
+                <div class="collapsible-header"><i class="material-icons">account_box</i>Dane konta</div>
+                <div class="collapsible-body">
+
+                    Tutaj masz możliwość zmiany danych kontaktowych.
+
+
+                    <div class="row">
+                        @using (Html.BeginForm("DaneKlienta", "Edit", FormMethod.Post))
+                        {
+                            @Html.AntiForgeryToken()
+                            <div class="row">
+                                <div class="input-field col s6">
+                                    @Html.LabelFor(x => x.imie, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    @Html.EditorFor(x => x.imie, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                                    @Html.ValidationMessageFor(x => x.imie, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="input-field col s6">
+                                    @Html.LabelFor(x => x.nazwisko, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    @Html.EditorFor(x => x.nazwisko, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(x => x.nazwisko, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="input-field col s6">
+                                    @Html.LabelFor(x => x.email, htmlAttributes: new { @class = "control-label col-md-3" })
+                                    @Html.EditorFor(x => x.email, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(x => x.email, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="input-field col s6">
+
+                                    @Html.LabelFor(x => x.telefon, htmlAttributes: new { @class = "control-label col-md-2" })
+
+                                    @Html.TextBoxFor(x => x.telefon, "{0:yyyy-MM-dd}", new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(x => x.telefon, "", new { @class = "text-danger" })
+
+                                </div>
+                            </div>
+
+                            @Html.HiddenFor(x => x.haslo)
+                            @Html.HiddenFor(x => x.id_klienta)
+                            @Html.HiddenFor(x => x.login)
+                            @Html.HiddenFor(x => x.data_ur)
+                            @Html.HiddenFor(x => x.pesel)
+                            @Html.HiddenFor(x => x.numer_dowodu)
+                            @Html.HiddenFor(x => x.blokada)
+                            <p class="latest-update"> <span class="right"> <a class="modal-trigger" href="#data" title="Kliknij tutaj aby zapisać zmiany" style="color:red;">Zapisz zmiany</a> </span></p>
+                            <div id="data" class="modal">
+                                <div class="modal-content">
+                                    <h4><span style="color:brown">Potwierdzenie</span></h4>
+                                    <p>
+                                        <br />
+
+                                        Podaj kod autoryzacyjny numer @kod.numer_kodu:<input type="text" class="form-control" name="kod" maxlength="6" minlength="6" placeholder="Podaj kod autoryzacyjny" required />
+                                        <input type="hidden" name="kod_check" value=@kod.kod>
+
+                                        <button class="btn waves-effect waves-light right" type="submit" name="action">
+                                            Zapisz
+                                            <i class="material-icons right">send</i>
+                                        </button>
+
+                                    </p>
+                                    <br />
+                                    <div class="modal-footer">
+                                        <a href="#!" class="modal-close waves-effect waves-green btn-flat">Zamknij</a>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>
+
+

@@ -1,0 +1,121 @@
+﻿@model WebApplication1.Przelewy_Cykliczne
+@using WebApplication1.Models
+@{
+    ViewBag.Title = "PrzelewCykliczny";
+    Dictionary<string, int> kategorie = (Dictionary<string, int>)Session["kategorie"];
+    Dictionary<string, int> typy_t = (Dictionary<string, int>)Session["typy"];
+    Dictionary<string, string> konta = (Dictionary<string, string>)Session["twoje_konta"];
+    Kod code = (Kod)Session["kod"];
+}
+
+
+<div class="parallax-container valign-wrapper">
+    <div class="section no-pad-bot">
+        <div class="container">
+            <div class="row center">
+                <h1 class="header center white-text text-lighten-2">Kredyt hipoteczny?</h1>
+                <h5 class="header col s12 light white-text"> <b> Z naszym bankiem złożenie wniosku zajmie Ci to 5 minut!</b></h5>
+            </div>
+        </div>
+    </div>
+    <div class="parallax"><img src="~/img/deposit/5.jpg" alt="Unsplashed background img 3"></div>
+</div>
+
+<br>
+<br>
+<div class="container">
+
+    <h5 class="method-header">Przelew cykliczny</h5>
+
+    <br>
+
+    <div class="row">
+        @using (Html.BeginForm("UtworzPrzelewCykliczny", "Create", FormMethod.Post))
+        {
+            <p>Dane potrzebne do realizacji przelewu:</p>
+
+            <div class="row">
+                <div class="col s12">
+                    @Html.LabelFor(model => model.do_kogo, htmlAttributes: new { @class = "control-label col-md-2" })
+                    @Html.EditorFor(model => model.do_kogo, new { htmlAttributes = new { @class = "validate", @id = "od_kogo" } })
+                    @Html.ValidationMessageFor(model => model.do_kogo, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="row">
+                <div class="col s6">
+                    @Html.LabelFor(model => model.dane_osobowe_nadawca, htmlAttributes: new { @class = "control-label col-md-2" })
+                    @Html.EditorFor(model => model.dane_osobowe_nadawca, new { htmlAttributes = new { @class = "validate", @id = "don" } })
+                    @Html.ValidationMessageFor(model => model.dane_osobowe_nadawca, "", new { @class = "text-danger" })
+                </div>
+                <div class="col s6">
+                    @Html.LabelFor(model => model.dane_osobowe, htmlAttributes: new { @class = "control-label col-md-2" })
+                    @Html.EditorFor(model => model.dane_osobowe, new { htmlAttributes = new { @class = "validate", @id = "do" } })
+                    @Html.ValidationMessageFor(model => model.dane_osobowe, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col s9">
+                    @Html.LabelFor(model => model.tytul, htmlAttributes: new { @class = "control-label col-md-2" })
+                    @Html.EditorFor(model => model.tytul, new { htmlAttributes = new { @class = "validate", @id = "tytul" } })
+                    @Html.ValidationMessageFor(model => model.tytul, "", new { @class = "text-danger" })
+                </div>
+                <div class="col s3">
+                    @Html.LabelFor(model => model.kategoria, htmlAttributes: new { @class = "control-label col-md-2" })
+                    @Html.DropDownListFor(model => model.kategoria, new SelectList(kategorie, "Value", "Key"), new { @class = "select-wrapper" })
+                    @Html.ValidationMessageFor(model => model.kategoria, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="row">
+                <div class="col s8">
+                    @Html.LabelFor(model => model.od_kogo, htmlAttributes: new { @class = "control-label col-md-2" })
+                    @Html.DropDownListFor(model => model.od_kogo, new SelectList(konta, "Value", "Key"), new { @class = "select-wrapper" })
+                    @Html.ValidationMessageFor(model => model.od_kogo, "", new { @class = "text-danger" })
+
+                </div>
+                <div class="col s4">
+                    @Html.LabelFor(model => model.typ_transakcji, htmlAttributes: new { @class = "control-label col-md-2" })
+                    @Html.DropDownListFor(model => model.typ_transakcji, new SelectList(typy_t, "Value", "Key"), new { @class = "select-wrapper" })
+                    @Html.ValidationMessageFor(model => model.typ_transakcji, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="row">
+                <div class="col s6">
+                    @Html.LabelFor(model => model.kwota, htmlAttributes: new { @class = "control-label col-md-2" })
+                    @Html.EditorFor(model => model.kwota, "{0:n2}", new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.kwota, "", new { @class = "text-danger" })
+                </div>
+                <div class="col s6">
+                    @Html.LabelFor(model => model.co_ile_dni, htmlAttributes: new { @class = "control-label col-md-2" })
+                    @Html.EditorFor(model => model.co_ile_dni, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.co_ile_dni, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="row">
+
+                <div class="col s6">
+                    Podaj hasło: <input type="password" class="validate" name="password" maxlength="50" minlength="6" required />
+                </div>
+                <div class="col s6">
+                    Podaj kod autoryzacyjny numer @(code.numer_kodu):<input type="text" class="validate" name="kod" maxlength="6" minlength="6" required />
+                    @Html.Hidden("check_code", @code.kod)
+                </div>
+            </div>
+            <div class="row">
+                <div class="col s12">
+                    @Html.LabelFor(model => model.data, htmlAttributes: new { @class = "control-label col-md-2" })
+                    @Html.EditorFor(model => model.data, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.data, "", new { @class = "text-danger" })
+
+                </div>
+            </div>
+            <center>
+                <input type="submit" value="Wykonaj przelew" class="btn" />
+            </center>
+
+        }
+    </div>
+
+</div>
+
+

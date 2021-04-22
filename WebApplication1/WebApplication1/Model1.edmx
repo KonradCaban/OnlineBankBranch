@@ -1,0 +1,957 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="BankModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="kategorie">
+          <Key>
+            <PropertyRef Name="id_kategorii" />
+          </Key>
+          <Property Name="id_kategorii" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nazwa_kategorii" Type="varchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Klienci">
+          <Key>
+            <PropertyRef Name="id_klienta" />
+          </Key>
+          <Property Name="id_klienta" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="login" Type="bigint" Nullable="false" />
+          <Property Name="haslo" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="imie" Type="varchar" MaxLength="40" Nullable="false" />
+          <Property Name="nazwisko" Type="varchar" MaxLength="60" Nullable="false" />
+          <Property Name="pesel" Type="varchar" MaxLength="11" Nullable="false" />
+          <Property Name="numer_dowodu" Type="varchar" MaxLength="14" Nullable="false" />
+          <Property Name="telefon" Type="varchar" MaxLength="9" Nullable="false" />
+          <Property Name="email" Type="varchar" MaxLength="70" Nullable="false" />
+          <Property Name="data_ur" Type="date" Nullable="false" />
+          <Property Name="blokada" Type="bit" />
+          <Property Name="plec" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Kody_Autoryzujace">
+          <Key>
+            <PropertyRef Name="id_kodu" />
+          </Key>
+          <Property Name="id_kodu" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="kod" Type="varchar" MaxLength="32" Nullable="false" />
+          <Property Name="id_klienta" Type="int" Nullable="false" />
+          <Property Name="numer_kodu" Type="int" Nullable="false" />
+          <Property Name="aktywny" Type="bit" />
+        </EntityType>
+        <EntityType Name="Konta">
+          <Key>
+            <PropertyRef Name="id_konta" />
+          </Key>
+          <Property Name="numer_konta" Type="varchar" MaxLength="26" Nullable="false" />
+          <Property Name="typ_konta" Type="int" Nullable="false" />
+          <Property Name="stan_konta" Type="money" />
+          <Property Name="limit_d" Type="money" />
+          <Property Name="limit_m" Type="money" />
+          <Property Name="data_otwarcia" Type="date" Nullable="false" />
+          <Property Name="id_klienta" Type="int" />
+          <Property Name="id_konta" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Kredyty">
+          <Key>
+            <PropertyRef Name="id_kredytu" />
+          </Key>
+          <Property Name="id_kredytu" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="id_klienta" Type="int" Nullable="false" />
+          <Property Name="data_zawarcia" Type="date" Nullable="false" />
+          <Property Name="kwota" Type="money" Nullable="false" />
+          <Property Name="okres_kredytowania" Type="int" Nullable="false" />
+          <Property Name="oprocentowanie" Type="float" Nullable="false" />
+          <Property Name="rrso" Type="float" />
+          <Property Name="prowizja" Type="float" />
+        </EntityType>
+        <EntityType Name="Lokaty">
+          <Key>
+            <PropertyRef Name="id_lokaty" />
+          </Key>
+          <Property Name="id_lokaty" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="id_klienta" Type="int" Nullable="false" />
+          <Property Name="data_rozpoczecia" Type="date" Nullable="false" />
+          <Property Name="kwota" Type="money" Nullable="false" />
+          <Property Name="oprocentowanie" Type="float" Nullable="false" />
+          <Property Name="okres" Type="int" Nullable="false" />
+          <Property Name="kapitalizacja" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Plcie">
+          <Key>
+            <PropertyRef Name="id_plci" />
+          </Key>
+          <Property Name="id_plci" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nazwa" Type="varchar" MaxLength="30" Nullable="false" />
+        </EntityType>
+        <EntityType Name="powiadomienia">
+          <Key>
+            <PropertyRef Name="id_powiadomienia" />
+          </Key>
+          <Property Name="id_powiadomienia" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="numer_konta" Type="varchar" MaxLength="26" Nullable="false" />
+          <Property Name="tresc" Type="varchar" MaxLength="300" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Przelewy_Cykliczne">
+          <Key>
+            <PropertyRef Name="id_przelewu" />
+          </Key>
+          <Property Name="id_przelewu" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="kwota" Type="money" Nullable="false" />
+          <Property Name="data" Type="date" Nullable="false" />
+          <Property Name="tytul" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="typ_transakcji" Type="int" Nullable="false" />
+          <Property Name="kategoria" Type="int" Nullable="false" />
+          <Property Name="od_kogo" Type="varchar" MaxLength="26" Nullable="false" />
+          <Property Name="do_kogo" Type="varchar" MaxLength="26" Nullable="false" />
+          <Property Name="dane_osobowe" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="dane_osobowe_nadawca" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="co_ile_dni" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Raty_kredytu">
+          <Key>
+            <PropertyRef Name="id_raty" />
+          </Key>
+          <Property Name="id_raty" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="id_kredytu" Type="int" Nullable="false" />
+          <Property Name="kwota_raty" Type="money" Nullable="false" />
+          <Property Name="czy_splacona" Type="bit" />
+          <Property Name="termin_splaty" Type="date" Nullable="false" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="tokeny">
+          <Key>
+            <PropertyRef Name="id_tokenu" />
+          </Key>
+          <Property Name="id_tokenu" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="email" Type="varchar" MaxLength="80" Nullable="false" />
+          <Property Name="kod" Type="varchar" MaxLength="80" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Transakcje">
+          <Key>
+            <PropertyRef Name="id_transakcji" />
+          </Key>
+          <Property Name="id_transakcji" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="typ_transakcji" Type="int" Nullable="false" />
+          <Property Name="kwota" Type="money" Nullable="false" />
+          <Property Name="data_transakcji" Type="date" />
+          <Property Name="tytul" Type="varchar" MaxLength="60" />
+          <Property Name="dane_osobowe" Type="varchar" MaxLength="60" />
+          <Property Name="kategoria" Type="int" Nullable="false" />
+          <Property Name="od_kogo" Type="varchar" MaxLength="26" Nullable="false" />
+          <Property Name="do_kogo" Type="varchar" MaxLength="26" Nullable="false" />
+          <Property Name="dane_osobowe_nadawca" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="wykonane" Type="bit" />
+        </EntityType>
+        <EntityType Name="Typy_Konta">
+          <Key>
+            <PropertyRef Name="id_typu" />
+          </Key>
+          <Property Name="id_typu" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nazwa_typu" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="oplata_za_prowadzenie" Type="money" Nullable="false" />
+          <Property Name="prowizja" Type="money" Nullable="false" />
+          <Property Name="opis" Type="varchar" MaxLength="500" />
+        </EntityType>
+        <EntityType Name="typy_transakcji">
+          <Key>
+            <PropertyRef Name="id_typu" />
+          </Key>
+          <Property Name="id_typu" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nazwa_typu" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__Konta__id_klient__3E52440B">
+          <End Role="Klienci" Type="Self.Klienci" Multiplicity="0..1" />
+          <End Role="Konta" Type="Self.Konta" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Klienci">
+              <PropertyRef Name="id_klienta" />
+            </Principal>
+            <Dependent Role="Konta">
+              <PropertyRef Name="id_klienta" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Konta__typ_konta__3D5E1FD2">
+          <End Role="Typy_Konta" Type="Self.Typy_Konta" Multiplicity="1" />
+          <End Role="Konta" Type="Self.Konta" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Typy_Konta">
+              <PropertyRef Name="id_typu" />
+            </Principal>
+            <Dependent Role="Konta">
+              <PropertyRef Name="typ_konta" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Kredyty__id_klie__5535A963">
+          <End Role="Klienci" Type="Self.Klienci" Multiplicity="1" />
+          <End Role="Kredyty" Type="Self.Kredyty" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Klienci">
+              <PropertyRef Name="id_klienta" />
+            </Principal>
+            <Dependent Role="Kredyty">
+              <PropertyRef Name="id_klienta" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Lokaty__id_klien__4E88ABD4">
+          <End Role="Klienci" Type="Self.Klienci" Multiplicity="1" />
+          <End Role="Lokaty" Type="Self.Lokaty" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Klienci">
+              <PropertyRef Name="id_klienta" />
+            </Principal>
+            <Dependent Role="Lokaty">
+              <PropertyRef Name="id_klienta" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Przelewy___kateg__09746778">
+          <End Role="kategorie" Type="Self.kategorie" Multiplicity="1" />
+          <End Role="Przelewy_Cykliczne" Type="Self.Przelewy_Cykliczne" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="kategorie">
+              <PropertyRef Name="id_kategorii" />
+            </Principal>
+            <Dependent Role="Przelewy_Cykliczne">
+              <PropertyRef Name="kategoria" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Przelewy___typ_t__0880433F">
+          <End Role="typy_transakcji" Type="Self.typy_transakcji" Multiplicity="1" />
+          <End Role="Przelewy_Cykliczne" Type="Self.Przelewy_Cykliczne" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="typy_transakcji">
+              <PropertyRef Name="id_typu" />
+            </Principal>
+            <Dependent Role="Przelewy_Cykliczne">
+              <PropertyRef Name="typ_transakcji" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Raty_kred__id_kr__59063A47">
+          <End Role="Kredyty" Type="Self.Kredyty" Multiplicity="1" />
+          <End Role="Raty_kredytu" Type="Self.Raty_kredytu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Kredyty">
+              <PropertyRef Name="id_kredytu" />
+            </Principal>
+            <Dependent Role="Raty_kredytu">
+              <PropertyRef Name="id_kredytu" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Transakcj__typ_t__4316F928">
+          <End Role="typy_transakcji" Type="Self.typy_transakcji" Multiplicity="1" />
+          <End Role="Transakcje" Type="Self.Transakcje" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="typy_transakcji">
+              <PropertyRef Name="id_typu" />
+            </Principal>
+            <Dependent Role="Transakcje">
+              <PropertyRef Name="typ_transakcji" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Klienci_plec">
+          <End Role="Plcie" Type="Self.Plcie" Multiplicity="1" />
+          <End Role="Klienci" Type="Self.Klienci" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Plcie">
+              <PropertyRef Name="id_plci" />
+            </Principal>
+            <Dependent Role="Klienci">
+              <PropertyRef Name="plec" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Kody">
+          <End Role="Klienci" Type="Self.Klienci" Multiplicity="1" />
+          <End Role="Kody_Autoryzujace" Type="Self.Kody_Autoryzujace" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Klienci">
+              <PropertyRef Name="id_klienta" />
+            </Principal>
+            <Dependent Role="Kody_Autoryzujace">
+              <PropertyRef Name="id_klienta" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_transakcje_kategoria">
+          <End Role="kategorie" Type="Self.kategorie" Multiplicity="1" />
+          <End Role="Transakcje" Type="Self.Transakcje" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="kategorie">
+              <PropertyRef Name="id_kategorii" />
+            </Principal>
+            <Dependent Role="Transakcje">
+              <PropertyRef Name="kategoria" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="generate_login" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="float" />
+        <EntityContainer Name="BankModelStoreContainer">
+          <EntitySet Name="kategorie" EntityType="Self.kategorie" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Klienci" EntityType="Self.Klienci" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Kody_Autoryzujace" EntityType="Self.Kody_Autoryzujace" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Konta" EntityType="Self.Konta" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Kredyty" EntityType="Self.Kredyty" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Lokaty" EntityType="Self.Lokaty" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Plcie" EntityType="Self.Plcie" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="powiadomienia" EntityType="Self.powiadomienia" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Przelewy_Cykliczne" EntityType="Self.Przelewy_Cykliczne" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Raty_kredytu" EntityType="Self.Raty_kredytu" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tokeny" EntityType="Self.tokeny" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Transakcje" EntityType="Self.Transakcje" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Typy_Konta" EntityType="Self.Typy_Konta" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="typy_transakcji" EntityType="Self.typy_transakcji" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__Konta__id_klient__3E52440B" Association="Self.FK__Konta__id_klient__3E52440B">
+            <End Role="Klienci" EntitySet="Klienci" />
+            <End Role="Konta" EntitySet="Konta" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Konta__typ_konta__3D5E1FD2" Association="Self.FK__Konta__typ_konta__3D5E1FD2">
+            <End Role="Typy_Konta" EntitySet="Typy_Konta" />
+            <End Role="Konta" EntitySet="Konta" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Kredyty__id_klie__5535A963" Association="Self.FK__Kredyty__id_klie__5535A963">
+            <End Role="Klienci" EntitySet="Klienci" />
+            <End Role="Kredyty" EntitySet="Kredyty" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Lokaty__id_klien__4E88ABD4" Association="Self.FK__Lokaty__id_klien__4E88ABD4">
+            <End Role="Klienci" EntitySet="Klienci" />
+            <End Role="Lokaty" EntitySet="Lokaty" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Przelewy___kateg__09746778" Association="Self.FK__Przelewy___kateg__09746778">
+            <End Role="kategorie" EntitySet="kategorie" />
+            <End Role="Przelewy_Cykliczne" EntitySet="Przelewy_Cykliczne" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Przelewy___typ_t__0880433F" Association="Self.FK__Przelewy___typ_t__0880433F">
+            <End Role="typy_transakcji" EntitySet="typy_transakcji" />
+            <End Role="Przelewy_Cykliczne" EntitySet="Przelewy_Cykliczne" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Raty_kred__id_kr__59063A47" Association="Self.FK__Raty_kred__id_kr__59063A47">
+            <End Role="Kredyty" EntitySet="Kredyty" />
+            <End Role="Raty_kredytu" EntitySet="Raty_kredytu" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Transakcj__typ_t__4316F928" Association="Self.FK__Transakcj__typ_t__4316F928">
+            <End Role="typy_transakcji" EntitySet="typy_transakcji" />
+            <End Role="Transakcje" EntitySet="Transakcje" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Klienci_plec" Association="Self.FK_Klienci_plec">
+            <End Role="Plcie" EntitySet="Plcie" />
+            <End Role="Klienci" EntitySet="Klienci" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Kody" Association="Self.FK_Kody">
+            <End Role="Klienci" EntitySet="Klienci" />
+            <End Role="Kody_Autoryzujace" EntitySet="Kody_Autoryzujace" />
+          </AssociationSet>
+          <AssociationSet Name="FK_transakcje_kategoria" Association="Self.FK_transakcje_kategoria">
+            <End Role="kategorie" EntitySet="kategorie" />
+            <End Role="Transakcje" EntitySet="Transakcje" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="BankModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Klienci">
+          <Key>
+            <PropertyRef Name="id_klienta" />
+          </Key>
+          <Property Name="id_klienta" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="login" Type="Int64" Nullable="false" />
+          <Property Name="haslo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="imie" Type="String" MaxLength="40" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="nazwisko" Type="String" MaxLength="60" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="pesel" Type="String" MaxLength="11" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="numer_dowodu" Type="String" MaxLength="14" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="telefon" Type="String" MaxLength="9" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="email" Type="String" MaxLength="70" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="data_ur" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="blokada" Type="Boolean" />
+          <NavigationProperty Name="Kontas" Relationship="Self.FK__Konta__id_klient__3E52440B" FromRole="Klienci" ToRole="Konta" />
+          <NavigationProperty Name="Kredyties" Relationship="Self.FK__Kredyty__id_klie__5535A963" FromRole="Klienci" ToRole="Kredyty" />
+          <NavigationProperty Name="Lokaties" Relationship="Self.FK__Lokaty__id_klien__4E88ABD4" FromRole="Klienci" ToRole="Lokaty" />
+          <NavigationProperty Name="Kody_Autoryzujace" Relationship="BankModel.FK_Kody" FromRole="Klienci" ToRole="Kody_Autoryzujace" />
+          <Property Name="plec" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Plcie" Relationship="BankModel.FK_Klienci_plec" FromRole="Klienci" ToRole="Plcie" />
+        </EntityType>
+        <EntityType Name="Konta">
+          <Key>
+            <PropertyRef Name="id_konta" />
+          </Key>
+          <Property Name="id_konta" Type="Int32" Nullable="false" />
+          <Property Name="numer_konta" Type="String" MaxLength="26" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="typ_konta" Type="Int32" Nullable="false" />
+          <Property Name="stan_konta" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="limit_d" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="limit_m" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="data_otwarcia" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="id_klienta" Type="Int32" />
+          <NavigationProperty Name="Klienci" Relationship="Self.FK__Konta__id_klient__3E52440B" FromRole="Konta" ToRole="Klienci" />
+          <NavigationProperty Name="Typy_Konta" Relationship="BankModel.FK__Konta__typ_konta__3D5E1FD2" FromRole="Konta" ToRole="Typy_Konta" />
+        </EntityType>
+        <EntityType Name="Kredyty">
+          <Key>
+            <PropertyRef Name="id_kredytu" />
+          </Key>
+          <Property Name="id_kredytu" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id_klienta" Type="Int32" Nullable="false" />
+          <Property Name="data_zawarcia" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="kwota" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <Property Name="okres_kredytowania" Type="Int32" Nullable="false" />
+          <Property Name="oprocentowanie" Type="Double" Nullable="false" />
+          <NavigationProperty Name="Klienci" Relationship="Self.FK__Kredyty__id_klie__5535A963" FromRole="Kredyty" ToRole="Klienci" />
+          <NavigationProperty Name="Raty_kredytu" Relationship="Self.FK__Raty_kred__id_kr__59063A47" FromRole="Kredyty" ToRole="Raty_kredytu" />
+          <Property Name="rrso" Type="Double" />
+          <Property Name="prowizja" Type="Double" />
+        </EntityType>
+        <EntityType Name="Lokaty">
+          <Key>
+            <PropertyRef Name="id_lokaty" />
+          </Key>
+          <Property Name="id_lokaty" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id_klienta" Type="Int32" Nullable="false" />
+          <Property Name="data_rozpoczecia" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="kwota" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <Property Name="oprocentowanie" Type="Double" Nullable="false" />
+          <Property Name="okres" Type="Int32" Nullable="false" />
+          <Property Name="kapitalizacja" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Klienci" Relationship="Self.FK__Lokaty__id_klien__4E88ABD4" FromRole="Lokaty" ToRole="Klienci" />
+        </EntityType>
+        <EntityType Name="Raty_kredytu">
+          <Key>
+            <PropertyRef Name="id_raty" />
+          </Key>
+          <Property Name="id_raty" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id_kredytu" Type="Int32" Nullable="false" />
+          <Property Name="kwota_raty" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <Property Name="czy_splacona" Type="Boolean" />
+          <Property Name="termin_splaty" Type="DateTime" Nullable="false" Precision="0" />
+          <NavigationProperty Name="Kredyty" Relationship="Self.FK__Raty_kred__id_kr__59063A47" FromRole="Raty_kredytu" ToRole="Kredyty" />
+        </EntityType>
+        <EntityType Name="sysdiagram">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="typy_transakcji">
+          <Key>
+            <PropertyRef Name="id_typu" />
+          </Key>
+          <Property Name="id_typu" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nazwa_typu" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Transakcjes" Relationship="BankModel.FK__Transakcj__typ_t__4316F928" FromRole="typy_transakcji" ToRole="Transakcje" />
+          <NavigationProperty Name="Przelewy_Cykliczne" Relationship="BankModel.FK__Przelewy___typ_t__0880433F" FromRole="typy_transakcji" ToRole="Przelewy_Cykliczne" />
+        </EntityType>
+        <Association Name="FK__Konta__id_klient__3E52440B">
+          <End Role="Klienci" Type="Self.Klienci" Multiplicity="0..1" />
+          <End Role="Konta" Type="Self.Konta" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Klienci">
+              <PropertyRef Name="id_klienta" />
+            </Principal>
+            <Dependent Role="Konta">
+              <PropertyRef Name="id_klienta" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Kredyty__id_klie__5535A963">
+          <End Role="Klienci" Type="Self.Klienci" Multiplicity="1" />
+          <End Role="Kredyty" Type="Self.Kredyty" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Klienci">
+              <PropertyRef Name="id_klienta" />
+            </Principal>
+            <Dependent Role="Kredyty">
+              <PropertyRef Name="id_klienta" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Lokaty__id_klien__4E88ABD4">
+          <End Role="Klienci" Type="Self.Klienci" Multiplicity="1" />
+          <End Role="Lokaty" Type="Self.Lokaty" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Klienci">
+              <PropertyRef Name="id_klienta" />
+            </Principal>
+            <Dependent Role="Lokaty">
+              <PropertyRef Name="id_klienta" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Raty_kred__id_kr__59063A47">
+          <End Role="Kredyty" Type="Self.Kredyty" Multiplicity="1" />
+          <End Role="Raty_kredytu" Type="Self.Raty_kredytu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Kredyty">
+              <PropertyRef Name="id_kredytu" />
+            </Principal>
+            <Dependent Role="Raty_kredytu">
+              <PropertyRef Name="id_kredytu" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DB_Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Kliencis" EntityType="Self.Klienci" />
+          <EntitySet Name="Kontas" EntityType="Self.Konta" />
+          <EntitySet Name="Kredyties" EntityType="Self.Kredyty" />
+          <EntitySet Name="Lokaties" EntityType="Self.Lokaty" />
+          <EntitySet Name="Raty_kredytu" EntityType="Self.Raty_kredytu" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
+          <EntitySet Name="typy_transakcji" EntityType="Self.typy_transakcji" />
+          <AssociationSet Name="FK__Konta__id_klient__3E52440B" Association="Self.FK__Konta__id_klient__3E52440B">
+            <End Role="Klienci" EntitySet="Kliencis" />
+            <End Role="Konta" EntitySet="Kontas" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Kredyty__id_klie__5535A963" Association="Self.FK__Kredyty__id_klie__5535A963">
+            <End Role="Klienci" EntitySet="Kliencis" />
+            <End Role="Kredyty" EntitySet="Kredyties" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Lokaty__id_klien__4E88ABD4" Association="Self.FK__Lokaty__id_klien__4E88ABD4">
+            <End Role="Klienci" EntitySet="Kliencis" />
+            <End Role="Lokaty" EntitySet="Lokaties" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Raty_kred__id_kr__59063A47" Association="Self.FK__Raty_kred__id_kr__59063A47">
+            <End Role="Kredyty" EntitySet="Kredyties" />
+            <End Role="Raty_kredytu" EntitySet="Raty_kredytu" />
+          </AssociationSet>
+          <EntitySet Name="Kody_Autoryzujace" EntityType="BankModel.Kody_Autoryzujace" />
+          <AssociationSet Name="FK_Kody" Association="BankModel.FK_Kody">
+            <End Role="Klienci" EntitySet="Kliencis" />
+            <End Role="Kody_Autoryzujace" EntitySet="Kody_Autoryzujace" />
+          </AssociationSet>
+          <EntitySet Name="Plcies" EntityType="BankModel.Plcie" />
+          <AssociationSet Name="FK_Klienci_plec" Association="BankModel.FK_Klienci_plec">
+            <End Role="Plcie" EntitySet="Plcies" />
+            <End Role="Klienci" EntitySet="Kliencis" />
+          </AssociationSet>
+          <EntitySet Name="kategories" EntityType="BankModel.kategorie" />
+          <EntitySet Name="tokenies" EntityType="BankModel.tokeny" />
+          <EntitySet Name="Transakcjes" EntityType="BankModel.Transakcje" />
+          <AssociationSet Name="FK_transakcje_kategoria" Association="BankModel.FK_transakcje_kategoria">
+            <End Role="kategorie" EntitySet="kategories" />
+            <End Role="Transakcje" EntitySet="Transakcjes" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Transakcj__typ_t__4316F928" Association="BankModel.FK__Transakcj__typ_t__4316F928">
+            <End Role="typy_transakcji" EntitySet="typy_transakcji" />
+            <End Role="Transakcje" EntitySet="Transakcjes" />
+          </AssociationSet>
+          <EntitySet Name="Typy_Konta" EntityType="BankModel.Typy_Konta" />
+          <AssociationSet Name="FK__Konta__typ_konta__3D5E1FD2" Association="BankModel.FK__Konta__typ_konta__3D5E1FD2">
+            <End Role="Typy_Konta" EntitySet="Typy_Konta" />
+            <End Role="Konta" EntitySet="Kontas" />
+          </AssociationSet>
+          <EntitySet Name="powiadomienias" EntityType="BankModel.powiadomienia" />
+          <EntitySet Name="Przelewy_Cykliczne" EntityType="BankModel.Przelewy_Cykliczne" />
+          <AssociationSet Name="FK__Przelewy___kateg__09746778" Association="BankModel.FK__Przelewy___kateg__09746778">
+            <End Role="kategorie" EntitySet="kategories" />
+            <End Role="Przelewy_Cykliczne" EntitySet="Przelewy_Cykliczne" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Przelewy___typ_t__0880433F" Association="BankModel.FK__Przelewy___typ_t__0880433F">
+            <End Role="typy_transakcji" EntitySet="typy_transakcji" />
+            <End Role="Przelewy_Cykliczne" EntitySet="Przelewy_Cykliczne" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Kody_Autoryzujace">
+          <Key>
+            <PropertyRef Name="id_kodu" />
+          </Key>
+          <Property Name="id_kodu" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="kod" Type="String" Nullable="false" MaxLength="32" FixedLength="false" Unicode="false" />
+          <Property Name="id_klienta" Type="Int32" Nullable="false" />
+          <Property Name="numer_kodu" Type="Int32" Nullable="false" />
+          <Property Name="aktywny" Type="Boolean" />
+          <NavigationProperty Name="Klienci" Relationship="BankModel.FK_Kody" FromRole="Kody_Autoryzujace" ToRole="Klienci" />
+        </EntityType>
+        <Association Name="FK_Kody">
+          <End Type="BankModel.Klienci" Role="Klienci" Multiplicity="1" />
+          <End Type="BankModel.Kody_Autoryzujace" Role="Kody_Autoryzujace" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Klienci">
+              <PropertyRef Name="id_klienta" />
+            </Principal>
+            <Dependent Role="Kody_Autoryzujace">
+              <PropertyRef Name="id_klienta" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Plcie">
+          <Key>
+            <PropertyRef Name="id_plci" />
+          </Key>
+          <Property Name="id_plci" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nazwa" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Kliencis" Relationship="BankModel.FK_Klienci_plec" FromRole="Plcie" ToRole="Klienci" />
+        </EntityType>
+        <Association Name="FK_Klienci_plec">
+          <End Type="BankModel.Plcie" Role="Plcie" Multiplicity="1" />
+          <End Type="BankModel.Klienci" Role="Klienci" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Plcie">
+              <PropertyRef Name="id_plci" />
+            </Principal>
+            <Dependent Role="Klienci">
+              <PropertyRef Name="plec" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="kategorie">
+          <Key>
+            <PropertyRef Name="id_kategorii" />
+          </Key>
+          <Property Name="id_kategorii" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nazwa_kategorii" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Transakcjes" Relationship="BankModel.FK_transakcje_kategoria" FromRole="kategorie" ToRole="Transakcje" />
+          <NavigationProperty Name="Przelewy_Cykliczne" Relationship="BankModel.FK__Przelewy___kateg__09746778" FromRole="kategorie" ToRole="Przelewy_Cykliczne" />
+        </EntityType>
+        <EntityType Name="tokeny">
+          <Key>
+            <PropertyRef Name="id_tokenu" />
+          </Key>
+          <Property Name="id_tokenu" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="email" Type="String" Nullable="false" MaxLength="80" FixedLength="false" Unicode="false" />
+          <Property Name="kod" Type="String" Nullable="false" MaxLength="80" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="Transakcje">
+          <Key>
+            <PropertyRef Name="id_transakcji" />
+          </Key>
+          <Property Name="id_transakcji" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="typ_transakcji" Type="Int32" Nullable="false" />
+          <Property Name="kwota" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+          <Property Name="data_transakcji" Type="DateTime" Precision="0" />
+          <Property Name="tytul" Type="String" MaxLength="60" FixedLength="false" Unicode="false" />
+          <Property Name="dane_osobowe" Type="String" MaxLength="60" FixedLength="false" Unicode="false" />
+          <Property Name="kategoria" Type="Int32" Nullable="false" />
+          <Property Name="od_kogo" Type="String" Nullable="false" MaxLength="26" FixedLength="false" Unicode="false" />
+          <Property Name="do_kogo" Type="String" Nullable="false" MaxLength="26" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="kategorie" Relationship="BankModel.FK_transakcje_kategoria" FromRole="Transakcje" ToRole="kategorie" />
+          <NavigationProperty Name="typy_transakcji" Relationship="BankModel.FK__Transakcj__typ_t__4316F928" FromRole="Transakcje" ToRole="typy_transakcji" />
+          <Property Name="dane_osobowe_nadawca" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="wykonane" Type="Boolean" />
+        </EntityType>
+        <Association Name="FK_transakcje_kategoria">
+          <End Type="BankModel.kategorie" Role="kategorie" Multiplicity="1" />
+          <End Type="BankModel.Transakcje" Role="Transakcje" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="kategorie">
+              <PropertyRef Name="id_kategorii" />
+            </Principal>
+            <Dependent Role="Transakcje">
+              <PropertyRef Name="kategoria" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Transakcj__typ_t__4316F928">
+          <End Type="BankModel.typy_transakcji" Role="typy_transakcji" Multiplicity="1" />
+          <End Type="BankModel.Transakcje" Role="Transakcje" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="typy_transakcji">
+              <PropertyRef Name="id_typu" />
+            </Principal>
+            <Dependent Role="Transakcje">
+              <PropertyRef Name="typ_transakcji" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Typy_Konta">
+          <Key>
+            <PropertyRef Name="id_typu" />
+          </Key>
+          <Property Name="id_typu" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nazwa_typu" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="oplata_za_prowadzenie" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+          <Property Name="prowizja" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+          <Property Name="opis" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Kontas" Relationship="BankModel.FK__Konta__typ_konta__3D5E1FD2" FromRole="Typy_Konta" ToRole="Konta" />
+        </EntityType>
+        <Association Name="FK__Konta__typ_konta__3D5E1FD2">
+          <End Type="BankModel.Typy_Konta" Role="Typy_Konta" Multiplicity="1" />
+          <End Type="BankModel.Konta" Role="Konta" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Typy_Konta">
+              <PropertyRef Name="id_typu" />
+            </Principal>
+            <Dependent Role="Konta">
+              <PropertyRef Name="typ_konta" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="powiadomienia">
+          <Key>
+            <PropertyRef Name="id_powiadomienia" />
+          </Key>
+          <Property Name="id_powiadomienia" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="numer_konta" Type="String" Nullable="false" MaxLength="26" FixedLength="false" Unicode="false" />
+          <Property Name="tresc" Type="String" Nullable="false" MaxLength="300" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="Przelewy_Cykliczne">
+          <Key>
+            <PropertyRef Name="id_przelewu" />
+          </Key>
+          <Property Name="id_przelewu" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="kwota" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+          <Property Name="data" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="tytul" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="typ_transakcji" Type="Int32" Nullable="false" />
+          <Property Name="kategoria" Type="Int32" Nullable="false" />
+          <Property Name="od_kogo" Type="String" Nullable="false" MaxLength="26" FixedLength="false" Unicode="false" />
+          <Property Name="do_kogo" Type="String" Nullable="false" MaxLength="26" FixedLength="false" Unicode="false" />
+          <Property Name="dane_osobowe" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="dane_osobowe_nadawca" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="co_ile_dni" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="kategorie" Relationship="BankModel.FK__Przelewy___kateg__09746778" FromRole="Przelewy_Cykliczne" ToRole="kategorie" />
+          <NavigationProperty Name="typy_transakcji" Relationship="BankModel.FK__Przelewy___typ_t__0880433F" FromRole="Przelewy_Cykliczne" ToRole="typy_transakcji" />
+        </EntityType>
+        <Association Name="FK__Przelewy___kateg__09746778">
+          <End Type="BankModel.kategorie" Role="kategorie" Multiplicity="1" />
+          <End Type="BankModel.Przelewy_Cykliczne" Role="Przelewy_Cykliczne" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="kategorie">
+              <PropertyRef Name="id_kategorii" />
+            </Principal>
+            <Dependent Role="Przelewy_Cykliczne">
+              <PropertyRef Name="kategoria" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Przelewy___typ_t__0880433F">
+          <End Type="BankModel.typy_transakcji" Role="typy_transakcji" Multiplicity="1" />
+          <End Type="BankModel.Przelewy_Cykliczne" Role="Przelewy_Cykliczne" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="typy_transakcji">
+              <PropertyRef Name="id_typu" />
+            </Principal>
+            <Dependent Role="Przelewy_Cykliczne">
+              <PropertyRef Name="typ_transakcji" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="BankModelStoreContainer" CdmEntityContainer="DB_Entities">
+          <EntitySetMapping Name="Kliencis">
+            <EntityTypeMapping TypeName="BankModel.Klienci">
+              <MappingFragment StoreEntitySet="Klienci">
+                <ScalarProperty Name="plec" ColumnName="plec" />
+                <ScalarProperty Name="id_klienta" ColumnName="id_klienta" />
+                <ScalarProperty Name="login" ColumnName="login" />
+                <ScalarProperty Name="haslo" ColumnName="haslo" />
+                <ScalarProperty Name="imie" ColumnName="imie" />
+                <ScalarProperty Name="nazwisko" ColumnName="nazwisko" />
+                <ScalarProperty Name="pesel" ColumnName="pesel" />
+                <ScalarProperty Name="numer_dowodu" ColumnName="numer_dowodu" />
+                <ScalarProperty Name="telefon" ColumnName="telefon" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="data_ur" ColumnName="data_ur" />
+                <ScalarProperty Name="blokada" ColumnName="blokada" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Kontas">
+            <EntityTypeMapping TypeName="BankModel.Konta">
+              <MappingFragment StoreEntitySet="Konta">
+                <ScalarProperty Name="id_konta" ColumnName="id_konta" />
+                <ScalarProperty Name="numer_konta" ColumnName="numer_konta" />
+                <ScalarProperty Name="typ_konta" ColumnName="typ_konta" />
+                <ScalarProperty Name="stan_konta" ColumnName="stan_konta" />
+                <ScalarProperty Name="limit_d" ColumnName="limit_d" />
+                <ScalarProperty Name="limit_m" ColumnName="limit_m" />
+                <ScalarProperty Name="data_otwarcia" ColumnName="data_otwarcia" />
+                <ScalarProperty Name="id_klienta" ColumnName="id_klienta" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Kredyties">
+            <EntityTypeMapping TypeName="BankModel.Kredyty">
+              <MappingFragment StoreEntitySet="Kredyty">
+                <ScalarProperty Name="prowizja" ColumnName="prowizja" />
+                <ScalarProperty Name="rrso" ColumnName="rrso" />
+                <ScalarProperty Name="id_kredytu" ColumnName="id_kredytu" />
+                <ScalarProperty Name="id_klienta" ColumnName="id_klienta" />
+                <ScalarProperty Name="data_zawarcia" ColumnName="data_zawarcia" />
+                <ScalarProperty Name="kwota" ColumnName="kwota" />
+                <ScalarProperty Name="okres_kredytowania" ColumnName="okres_kredytowania" />
+                <ScalarProperty Name="oprocentowanie" ColumnName="oprocentowanie" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Lokaties">
+            <EntityTypeMapping TypeName="BankModel.Lokaty">
+              <MappingFragment StoreEntitySet="Lokaty">
+                <ScalarProperty Name="id_lokaty" ColumnName="id_lokaty" />
+                <ScalarProperty Name="id_klienta" ColumnName="id_klienta" />
+                <ScalarProperty Name="data_rozpoczecia" ColumnName="data_rozpoczecia" />
+                <ScalarProperty Name="kwota" ColumnName="kwota" />
+                <ScalarProperty Name="oprocentowanie" ColumnName="oprocentowanie" />
+                <ScalarProperty Name="okres" ColumnName="okres" />
+                <ScalarProperty Name="kapitalizacja" ColumnName="kapitalizacja" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Raty_kredytu">
+            <EntityTypeMapping TypeName="BankModel.Raty_kredytu">
+              <MappingFragment StoreEntitySet="Raty_kredytu">
+                <ScalarProperty Name="id_raty" ColumnName="id_raty" />
+                <ScalarProperty Name="id_kredytu" ColumnName="id_kredytu" />
+                <ScalarProperty Name="kwota_raty" ColumnName="kwota_raty" />
+                <ScalarProperty Name="czy_splacona" ColumnName="czy_splacona" />
+                <ScalarProperty Name="termin_splaty" ColumnName="termin_splaty" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="BankModel.sysdiagram">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="typy_transakcji">
+            <EntityTypeMapping TypeName="BankModel.typy_transakcji">
+              <MappingFragment StoreEntitySet="typy_transakcji">
+                <ScalarProperty Name="id_typu" ColumnName="id_typu" />
+                <ScalarProperty Name="nazwa_typu" ColumnName="nazwa_typu" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Kody_Autoryzujace">
+            <EntityTypeMapping TypeName="BankModel.Kody_Autoryzujace">
+              <MappingFragment StoreEntitySet="Kody_Autoryzujace">
+                <ScalarProperty Name="aktywny" ColumnName="aktywny" />
+                <ScalarProperty Name="numer_kodu" ColumnName="numer_kodu" />
+                <ScalarProperty Name="id_klienta" ColumnName="id_klienta" />
+                <ScalarProperty Name="kod" ColumnName="kod" />
+                <ScalarProperty Name="id_kodu" ColumnName="id_kodu" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Plcies">
+            <EntityTypeMapping TypeName="BankModel.Plcie">
+              <MappingFragment StoreEntitySet="Plcie">
+                <ScalarProperty Name="nazwa" ColumnName="nazwa" />
+                <ScalarProperty Name="id_plci" ColumnName="id_plci" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="kategories">
+            <EntityTypeMapping TypeName="BankModel.kategorie">
+              <MappingFragment StoreEntitySet="kategorie">
+                <ScalarProperty Name="nazwa_kategorii" ColumnName="nazwa_kategorii" />
+                <ScalarProperty Name="id_kategorii" ColumnName="id_kategorii" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tokenies">
+            <EntityTypeMapping TypeName="BankModel.tokeny">
+              <MappingFragment StoreEntitySet="tokeny">
+                <ScalarProperty Name="kod" ColumnName="kod" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="id_tokenu" ColumnName="id_tokenu" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Transakcjes">
+            <EntityTypeMapping TypeName="BankModel.Transakcje">
+              <MappingFragment StoreEntitySet="Transakcje">
+                <ScalarProperty Name="wykonane" ColumnName="wykonane" />
+                <ScalarProperty Name="dane_osobowe_nadawca" ColumnName="dane_osobowe_nadawca" />
+                <ScalarProperty Name="do_kogo" ColumnName="do_kogo" />
+                <ScalarProperty Name="od_kogo" ColumnName="od_kogo" />
+                <ScalarProperty Name="kategoria" ColumnName="kategoria" />
+                <ScalarProperty Name="dane_osobowe" ColumnName="dane_osobowe" />
+                <ScalarProperty Name="tytul" ColumnName="tytul" />
+                <ScalarProperty Name="data_transakcji" ColumnName="data_transakcji" />
+                <ScalarProperty Name="kwota" ColumnName="kwota" />
+                <ScalarProperty Name="typ_transakcji" ColumnName="typ_transakcji" />
+                <ScalarProperty Name="id_transakcji" ColumnName="id_transakcji" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Typy_Konta">
+            <EntityTypeMapping TypeName="BankModel.Typy_Konta">
+              <MappingFragment StoreEntitySet="Typy_Konta">
+                <ScalarProperty Name="opis" ColumnName="opis" />
+                <ScalarProperty Name="prowizja" ColumnName="prowizja" />
+                <ScalarProperty Name="oplata_za_prowadzenie" ColumnName="oplata_za_prowadzenie" />
+                <ScalarProperty Name="nazwa_typu" ColumnName="nazwa_typu" />
+                <ScalarProperty Name="id_typu" ColumnName="id_typu" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="powiadomienias">
+            <EntityTypeMapping TypeName="BankModel.powiadomienia">
+              <MappingFragment StoreEntitySet="powiadomienia">
+                <ScalarProperty Name="tresc" ColumnName="tresc" />
+                <ScalarProperty Name="numer_konta" ColumnName="numer_konta" />
+                <ScalarProperty Name="id_powiadomienia" ColumnName="id_powiadomienia" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Przelewy_Cykliczne">
+            <EntityTypeMapping TypeName="BankModel.Przelewy_Cykliczne">
+              <MappingFragment StoreEntitySet="Przelewy_Cykliczne">
+                <ScalarProperty Name="co_ile_dni" ColumnName="co_ile_dni" />
+                <ScalarProperty Name="dane_osobowe_nadawca" ColumnName="dane_osobowe_nadawca" />
+                <ScalarProperty Name="dane_osobowe" ColumnName="dane_osobowe" />
+                <ScalarProperty Name="do_kogo" ColumnName="do_kogo" />
+                <ScalarProperty Name="od_kogo" ColumnName="od_kogo" />
+                <ScalarProperty Name="kategoria" ColumnName="kategoria" />
+                <ScalarProperty Name="typ_transakcji" ColumnName="typ_transakcji" />
+                <ScalarProperty Name="tytul" ColumnName="tytul" />
+                <ScalarProperty Name="data" ColumnName="data" />
+                <ScalarProperty Name="kwota" ColumnName="kwota" />
+                <ScalarProperty Name="id_przelewu" ColumnName="id_przelewu" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="true" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

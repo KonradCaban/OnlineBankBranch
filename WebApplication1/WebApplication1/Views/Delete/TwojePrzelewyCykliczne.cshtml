@@ -1,0 +1,117 @@
+﻿@model WebApplication1.Models.Kod
+@using WebApplication1.Models
+@{ List<infoCykliczne> list = (List<infoCykliczne>)TempData["prz"];}
+
+
+
+<div class="parallax-container valign-wrapper">
+    <div class="section no-pad-bot">
+        <div class="container">
+            <div class="row center">
+                <h1 class="header center white-text text-lighten-2">Kredyt hipoteczny?</h1>
+                <h5 class="header col s12 light white-text"> <b> Z naszym bankiem złożenie wniosku zajmie Ci to 5 minut!</b></h5>
+            </div>
+        </div>
+    </div>
+    <div class="parallax"><img src="~/img/deposit/5.jpg" alt="Unsplashed background img 3"></div>
+</div>
+
+
+<div class="container">
+    <div class="section">
+        <div class="center black-text"><h4>Twoje aktywne przelewy cykliczne:</h4></div>
+        @if (list.Count != 0)
+        {
+            int i = 0;
+            foreach (var item in list)
+            {
+
+                string o1 = item.numer_konta_odbiorca.Substring(0, 2);
+                string o2 = item.numer_konta_odbiorca.Substring(2);
+                o2 = System.Text.RegularExpressions.Regex.Replace(o2, ".{4}", "$0 ");
+                string n1 = item.numer_konta_nadawca.Substring(0, 2);
+                string n2 = item.numer_konta_nadawca.Substring(2);
+                n2 = System.Text.RegularExpressions.Regex.Replace(n2, ".{4}", "$0 ");
+                string kw = item.kwota.ToString().Substring(0, item.kwota.ToString().Length - 2);
+                var date2 = item.data.GetValueOrDefault().ToString("dd/MM/yyyy");
+                <ul class="collapsible">
+                    <li>
+                        <div class="collapsible-header">Tytuł przelewu: @item.tytul<div class="right">Kwota: @kw zł</div></div>
+                        <div class="collapsible-body">
+                            <div class="center black-text"><h5>Podstawowe dane dotyczące tego przelewu cyklicznego:</h5></div>
+                            <br />
+                            <table>
+                                <tr>
+                                    <th style="width:40%">Tytuł przelewu:</th>
+                                    <td>@item.tytul</td>
+
+                                </tr>
+
+                                <tr>
+                                    <th style="width:40%">Rachunek odbiorcy:</th>
+                                    <td>@o1 @o2</td>
+
+                                </tr>
+                                <tr>
+                                    <th style="width:40%">Odbiorca:</th>
+                                    <td>@item.dane_odbiorcy</td>
+
+                                </tr>
+                                <tr>
+                                    <th style="width:40%">Kwota:</th>
+                                    <td>@kw zł</td>
+
+                                </tr>
+                                <tr>
+                                    <th style="width:40%">Rachunek nadawcy:</th>
+                                    <td>@n1 @n2  </td>
+
+                                </tr>
+                                <tr>
+                                    <th style="width:40%">Dane nadawcy:</th>
+                                    <td>@item.dane_nadawcy</td>
+
+                                </tr>
+                                <tr>
+                                    <th style="width:40%">Co ile dni następuje przelew:</th>
+                                    @if (item.co_ile == 1)
+                                    {
+                                        <td>@item.co_ile dzień</td>
+                                    }
+                                    else
+                                    {
+                                        <td>@item.co_ile dni</td>
+                                    }
+
+
+                                </tr>
+                            </table>
+                            <br />
+                            <br />
+                            @using (Html.BeginForm("UsunPrzelew", "Delete", FormMethod.Post))
+                            {
+                                <div class="input-field col s6">
+                                    <div class="center black-text">
+                                        <h6>
+                                            Jeśli chcesz zlikwidować ten przelew cykliczny podaj kod autoryzacyjny numer @Html.DisplayFor(p => p.numer_kodu):</h6></div>
+                                            <input type="text" class="validate" name="kod" maxlength="6" minlength="6" required />
+                                            @Html.Hidden("check_code", @Html.DisplayFor(p => p.kod))
+                                    </div>
+                                <input type="hidden" name="id_przelewu" , value=@item.id />
+                                <center>
+                                    <input type="submit" value="Zlikwiduj" class="btn" />
+                                </center>
+
+
+                            }
+
+                        </div>
+                    </li>
+                </ul>
+
+
+            }
+        }
+
+    </div>
+</div>

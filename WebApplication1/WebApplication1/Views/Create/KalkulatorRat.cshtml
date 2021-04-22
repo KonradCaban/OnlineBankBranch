@@ -1,0 +1,303 @@
+﻿@model WebApplication1.Models.Kod
+@using WebApplication1.Models
+@{
+    ViewBag.Title = "KalkulatorRat";
+    if (Session["konta"] == null)
+    {
+        Response.Redirect("Login");
+    }
+
+    List<subKonta> r_list = (List<subKonta>)Session["konta"];
+}
+
+
+<div class="container">
+
+    <h5 class="method-header">Kredyt</h5>
+
+    <div class="row">
+        <div class="col s12">
+
+            <div class="row">
+                <div class="col s12 m7">
+                    <div class="card-panel">
+                        <div class="row">
+
+                            <div class="col s12 m12">
+
+
+
+                                <b>Kwota kredytu</b>
+                                <input id="kwota" type="text" class="validate" value="0" disabled>
+                                <label for="kwota">Kwota kredytu w złotówkach</label>
+
+
+                                <p class="range-field">
+                                    <input type="range" id="test_kw" min="@((int)TempData["min_kwota"])" max="@((int)TempData["maks_kwota"])" step="1000" onchange="aktualizujkwote(this.value);" />
+                                </p>
+
+                                <script>
+                                    function aktualizujkwote(val) {
+                                        document.getElementById('kwota').value = val;
+                                        document.getElementById('rata').value = parseInt(document.getElementById('test_rat').value);
+                                        document.getElementById('rata_hid').value = parseInt(document.getElementById('test_rat').value);
+                                        document.getElementById('calkowitaKwotaKredytu').value = val;
+
+                                        document.getElementById('prowizja').value = parseFloat(document.getElementById('kwota').value) * parseFloat(document.getElementById('prowizjaprocent').value) / parseInt(100);
+
+
+
+
+
+
+                                        var n = parseInt(document.getElementById('test_rat').value);
+                                        var sum_koszt_pr = parseFloat(document.getElementById('prowizja').value) + parseFloat(document.getElementById('kwota').value)
+                                        var i;
+                                        var sum = 0;
+                                        var tmp;
+                                        var procent = parseFloat(document.getElementById('oprocentowanie').value);
+
+                                        for (i = 1; i <= n; i++) {
+                                            tmp = parseInt(1) + procent / parseInt(1200);
+
+                                            sum = sum + Math.pow(tmp, -i);
+
+                                        }
+                                        sum = sum_koszt_pr / sum;
+
+                                        document.getElementById('output').value = parseFloat(Math.round(sum * 100) / 100);
+
+                                        document.getElementById('RRSO').value = '24,13%';
+                                        document.getElementById('calkowitaKwotaDoZaplaty').value = parseFloat(Math.round(sum * 100 * n) / 100);
+                                        document.getElementById('calkowityKosztKredytu').value = Math.round(parseFloat((document.getElementById('calkowitaKwotaDoZaplaty').value) - parseFloat(document.getElementById('calkowitaKwotaKredytu').value)) * 100) / 100;
+                                        document.getElementById('odsetki').value = Math.round((parseFloat(document.getElementById('calkowityKosztKredytu').value) - parseFloat(document.getElementById('prowizja').value)) * 100) / 100;
+                                        document.getElementById('rata_hid').value = parseInt(document.getElementById('test_rat').value);
+                                        document.getElementById('kwota_hid').value = val;
+                                        document.getElementById('prow_hid').value = parseFloat(document.getElementById('prowizjaprocent').value);
+                                        document.getElementById('proc_hid').value = parseFloat(document.getElementById('oprocentowanie').value)
+                                        document.getElementById('rrso_hid').value = 'DO OBLICZENIA';
+                                    }</script>
+
+                                <br>
+
+                                <b>Liczba rat kredytu</b>
+                                <input id="rata" type="text" class="validate" value="0" disabled>
+                                <label for="rata">Liczba rat kredytu w miesiącach</label>
+                                <p class="range-field">
+                                    <input type="range" id="test_rat" min="@((int)TempData["min_rat"])" max="@((int)TempData["maks_rat"])" onchange="aktualizujRaty(this.value);" />
+                                </p>
+
+                                <script>
+                                    function aktualizujRaty(val) {
+                                        document.getElementById('calkowitaKwotaKredytu').value = parseInt(document.getElementById('test_kw').value);
+                                        document.getElementById('kwota').value = parseInt(document.getElementById('test_kw').value);
+                                        document.getElementById('prowizja').value = parseFloat(document.getElementById('kwota').value) * parseFloat(document.getElementById('prowizjaprocent').value) / parseInt(100);
+                                        document.getElementById('rata').value = val;
+
+
+                                        var n = parseInt(val);
+                                        var sum_koszt_pr = parseFloat(document.getElementById('prowizja').value) + parseFloat(document.getElementById('kwota').value)
+                                        var i;
+                                        var sum = 0;
+                                        var tmp;
+                                        var procent = parseFloat(document.getElementById('oprocentowanie').value);
+
+                                        for (i = 1; i <= n; i++) {
+                                            tmp = parseInt(1) + procent / parseInt(1200);
+
+                                            sum = sum + Math.pow(tmp, -i);
+
+                                        }
+                                        sum = sum_koszt_pr / sum;
+
+                                        document.getElementById('output').value = parseFloat(Math.round(sum * 100) / 100);
+
+                                        document.getElementById('RRSO').value = '24,13%';
+                                        document.getElementById('calkowitaKwotaDoZaplaty').value = parseFloat(Math.round(sum * 100 * n) / 100);
+                                        document.getElementById('calkowityKosztKredytu').value = Math.round(parseFloat((document.getElementById('calkowitaKwotaDoZaplaty').value) - parseFloat(document.getElementById('calkowitaKwotaKredytu').value)) * 100) / 100;
+                                        document.getElementById('odsetki').value = Math.round((parseFloat(document.getElementById('calkowityKosztKredytu').value) - parseFloat(document.getElementById('prowizja').value)) * 100) / 100;
+                                        document.getElementById('rata_hid').value = val;
+                                        document.getElementById('kwota_hid').value = parseInt(document.getElementById('test_kw').value);
+                                        document.getElementById('prow_hid').value = parseFloat(document.getElementById('prowizjaprocent').value);
+                                        document.getElementById('proc_hid').value = parseFloat(document.getElementById('oprocentowanie').value)
+                                        document.getElementById('rrso_hid').value = 'DO OBLICZENIA';
+
+                                    }</script>
+
+
+
+                                <b> Rata miesięczna </b> <h4> <output id="output" style="color:red;">0</output>	zł</h4>
+
+
+
+                                <br>
+                                <br>
+                                <br>
+
+                            </div>
+
+
+
+                        </div>
+                    </div>
+                </div>
+                <div class="col s12 m5">
+
+                    <div class="card-panel">
+
+
+                        <table>
+
+                            <tr>
+                                <th width="20%">Całkowita kwota kredytu (w zł)</th>
+                                <td><input type="text" id="calkowitaKwotaKredytu" disabled required> </td>
+                            </tr>
+                            <tr>
+                                <th>Całkowita kwota do zapłaty (w zł)</th>
+                                <td><input type="text" id="calkowitaKwotaDoZaplaty" disabled required> </td>
+                            </tr>
+                            <tr>
+                                <th>Całkowity koszt kredytu (w zł)</th>
+                                <td> <input type="text" id="calkowityKosztKredytu" disabled required></td>
+                            </tr>
+                            <tr>
+                                <th>Prowizja (w %)</th>
+                                <td><input type="text" id="prowizjaprocent" value="@((double)TempData["prowizja"])" disabled required /> </td>
+                            </tr>
+                            <tr>
+                                <th>Wysokość prowizji (w zł)</th>
+                                <td><input type="text" id="prowizja" disabled required></td>
+                            </tr>
+                            <tr>
+                                <th>Oprocentowanie w (w %)</th>
+                                <td><input type="text" id="oprocentowanie" value="@((double)TempData["oprocentowanie"])" disabled required /></td>
+                            </tr>
+                            <tr>
+                                <th>Odsetki (w zł)</th>
+                                <td><input type="text" id="odsetki" disabled required></td>
+                            </tr>
+                            <tr>
+                                <th><a class="tooltipped" data-position="top" data-tooltip="Rzeczywista roczna stopa oprocentowania.">RRSO (w zł) <i class="material-icons dp48">info_outline</i></a></th>
+                                <td><input type="text" id="RRSO" disabled required> </td>
+                            </tr>
+
+
+
+                        </table>
+                        <div id="modal1" class="modal">
+                            <div class="modal-content">
+                                <h4>Autoryzacja</h4>
+                                <div class="row">
+                                    @using (Html.BeginForm("NowyKredyt", "Create", FormMethod.Post))
+                                    {
+                                        <input type="hidden" id="rata_hid" name="rata_hid" required>
+                                        <input type="hidden" id="kwota_hid" name="kwota_hid" required>
+                                        <input type="hidden" id="prow_hid" name="prow_hid" required>
+                                        <input type="hidden" id="proc_hid" name="proc_hid" required>
+                                        <input type="hidden" id="rrso_hid" name="rrso_hid" required>
+                                        <div class="input-field col s6">
+                                            Podaj hasło: <input type="password" class="validate" name="password" maxlength="50" minlength="6" required />
+                                        </div>
+
+
+                                        <div class="input-field col s6">
+                                            Podaj kod autoryzacyjny numer @Html.DisplayFor(p => p.numer_kodu):<input type="text" class="validate" name="kod" maxlength="6" minlength="6" required />
+                                            @Html.Hidden("check_code", @Html.DisplayFor(p => p.kod))
+                                        </div>
+                                        <div class="input-field col s12">
+                                            <br />
+                                            <center>
+                                                <input type="submit" value="Utwórz kredyt" class="btn" />
+                                            </center>
+                                        </div>
+                                        <label for="konto_cel">Wybierz konto docelowe: </label>
+                                        <select name="konto_cel" id="konto_cel">
+
+                                            @foreach (var item in r_list)
+                                            {
+                                                string c1 = @item.numer_konta.Substring(0, 2);
+                                                string c2 = @item.numer_konta.Substring(2);
+                                                c2 = System.Text.RegularExpressions.Regex.Replace(c2, ".{4}", "$0 ");
+                                                string m = item.stan_konta.ToString();
+                                                m = m.Substring(0, m.Length - 2);
+                                                <option value="@item.numer_konta"> Konto @c1 @c2 (@m zł)</option>
+                                            }
+                                        </select>
+
+
+                                    }
+                                    <div class="modal-footer">
+                                        <a href="#!" class="modal-close waves-effect waves-green btn-flat">Anuluj operację</a>
+                                    </div>
+
+
+                                </div>
+
+
+
+                            </div>
+                        </div>
+
+
+                    </div>
+
+
+
+
+                    <script>
+                        document.getElementById('kwota').value = parseInt(document.getElementById('test_kw').value);
+                        document.getElementById('rata').value = parseInt(document.getElementById('test_rat').value);
+                        document.getElementById('calkowitaKwotaKredytu').value = parseInt(document.getElementById('test_kw').value);
+
+                        document.getElementById('prowizja').value = parseFloat(document.getElementById('kwota').value) * parseFloat(document.getElementById('prowizjaprocent').value) / parseInt(100);
+
+
+
+
+
+
+                        var n = parseInt(document.getElementById('test_rat').value);
+                        var sum_koszt_pr = parseFloat(document.getElementById('prowizja').value) + parseFloat(document.getElementById('kwota').value)
+                        var i;
+                        var sum = 0;
+                        var tmp;
+                        var procent = parseFloat(document.getElementById('oprocentowanie').value);
+
+                        for (i = 1; i <= n; i++) {
+                            tmp = parseInt(1) + procent / parseInt(1200);
+
+                            sum = sum + Math.pow(tmp, -i);
+
+                        }
+                        sum = sum_koszt_pr / sum;
+
+                        document.getElementById('output').value = parseFloat(Math.round(sum * 100) / 100);
+
+                        document.getElementById('RRSO').value = 'DO OBLICZENIA';
+                        document.getElementById('calkowitaKwotaDoZaplaty').value = parseFloat(Math.round(sum * 100 * n) / 100);
+                        document.getElementById('calkowityKosztKredytu').value = Math.round(parseFloat((document.getElementById('calkowitaKwotaDoZaplaty').value) - parseFloat(document.getElementById('calkowitaKwotaKredytu').value)) * 100) / 100;
+                        document.getElementById('odsetki').value = Math.round((parseFloat(document.getElementById('calkowityKosztKredytu').value) - parseFloat(document.getElementById('prowizja').value)) * 100) / 100;
+                        document.getElementById('rata_hid').value = parseInt(document.getElementById('test_rat').value);
+                        document.getElementById('kwota_hid').value = parseInt(document.getElementById('test_kw').value);
+                        document.getElementById('prow_hid').value = parseFloat(document.getElementById('prowizjaprocent').value);
+                        document.getElementById('proc_hid').value = parseFloat(document.getElementById('oprocentowanie').value)
+                        document.getElementById('rrso_hid').value = 'DO OBLICZENIA';
+
+                    </script>
+
+
+
+                </div>
+            </div>
+
+
+        </div>
+        <div id="row">
+            <center> <a class="waves-effect waves-light btn modal-trigger" href="#modal1">Autoryzuj</a> </center>
+        </div>
+
+    </div>
+
+
+
+</div>

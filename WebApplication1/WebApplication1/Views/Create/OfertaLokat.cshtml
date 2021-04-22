@@ -1,0 +1,115 @@
+﻿
+ 
+    <div class="col s12">
+        <div class="container">
+            <div class="section">
+
+                <div class="section" id="user-index">
+                    <div class="row">
+
+
+                        <div class="col s12 ">
+                            <div class="row">
+                                <div class="card user-card-negative-margin z-depth-0" id="feed">
+                                    <div class="card-content card-border-gray">
+
+                                        <div class="col s12">
+                                            <h5>Nasza oferta</h5>
+
+                                        </div>
+
+                                        <div class="row">
+
+                                            <div id="kredyt" class="col s12">
+
+
+                                                <div id="lokaty" class="col s12">
+                                                    <div class="row">
+                                                        <br>
+
+
+                                                        <div class="card">
+                                                            <div class="card-image">
+                                                                <img src="~/img/lokaty/1.jpg">
+                                                                <span class="card-title grey darken-4">Lokata jednoroczna</span>
+                                                            </div>
+                                                            <div class="card-content">
+                                                                <p>Otwórz lokatę jednoroczną z oprocentowaniem 0.7% w skali roku.  </p>
+                                                                <h5> Z nami zajmie Ci to mniej niż 5 minut! </h5>
+                                                                <br>
+                                                                <div class="row">
+
+
+                                                                    <div class="col s12 m4 l4"><p>Oprocentowanie 0.7% </p> <h5> <a class="tooltipped" data-position="top" data-tooltip="Oprocentowanie stałe 0.7% w skali roku.">0.7% </a></h5></div>
+                                                                    <div class="col s12 m4 l4"><p>Długość trwania lokaty</p> <h5>minimum 12 miesięcy</h5></div>
+                                                                    <div class="col s12 m4 l4"><p>Kapitalizacja</p> <h5>Comiesięczna</h5></div>
+                                                                </div>
+
+                                                            </div>
+                                                            <div class="card-tabs">
+                                                                <ul class="tabs tabs-fixed-width">
+
+
+                                                                    <li class="tab"><a class="active" href="#test4">Szczegóły dotyczące lokaty</a></li>
+        
+                                                                </ul>
+                                                            </div>
+                                                            <div class="card-content grey lighten-4">
+                                                                <div id="test4">
+
+                                                                    <p>Lokata oszczędnościowa gwarantuje Ci:</p>
+
+                                                                    <p>
+                                                                        <label>
+                                                                            <input type="checkbox" checked="checked" disabled="disabled" />
+                                                                            <span>Brak opłat za otwarcie i prowadzenie</span>
+                                                                        </label>
+                                                                    </p>
+
+                                                                    <p>
+                                                                        <label>
+                                                                            <input type="checkbox" checked="checked" disabled="disabled" />
+                                                                            <span>Stały dostęp do środków</span>
+                                                                        </label>
+                                                                    </p>
+
+                                                                    <p>
+                                                                        <label>
+                                                                            <input type="checkbox" checked="checked" disabled="disabled" />
+                                                                            <span>Atrakcyjne oprocentowanie</span>
+                                                                        </label>
+                                                                    </p>
+                                                                    @using (Html.BeginForm("KalkulatorLokat", "Create", FormMethod.Post))
+                                                                    {
+                                                                        @Html.Hidden("oprocentowanie", 0.7)
+                                                                        @Html.Hidden("min_kwota", 1000)
+                                                                        @Html.Hidden("maks_kwota", 50000)
+                                                                        @Html.Hidden("min_m", 12)
+                                                                        @Html.Hidden("maks_m", 120)
+
+                                                                        <center>
+                                                                            <input type="submit" value="Oblicz lokatę" class="waves-effect waves-light btn" />
+                                                                        </center>
+                                                                    }
+
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
